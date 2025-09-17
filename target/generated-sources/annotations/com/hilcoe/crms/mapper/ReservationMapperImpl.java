@@ -1,0 +1,85 @@
+package com.hilcoe.crms.mapper;
+
+import com.hilcoe.crms.dto.ReservationCreateDTO;
+import com.hilcoe.crms.dto.ReservationFullResponseDTO;
+import com.hilcoe.crms.dto.ReservationResponseDTO;
+import com.hilcoe.crms.dto.ReservationUpdateDTO;
+import com.hilcoe.crms.entity.Reservation;
+import javax.annotation.processing.Generated;
+import org.springframework.stereotype.Component;
+
+@Generated(
+    value = "org.mapstruct.ap.MappingProcessor",
+    date = "2025-09-16T21:04:51+0300",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.43.0.v20250819-1513, environment: Java 21.0.8 (Eclipse Adoptium)"
+)
+@Component
+public class ReservationMapperImpl implements ReservationMapper {
+
+    @Override
+    public Reservation toEntity(ReservationCreateDTO dto) {
+        if ( dto == null ) {
+            return null;
+        }
+
+        Reservation reservation = new Reservation();
+
+        reservation.setCustomerId( dto.getCustomerId() );
+        reservation.setPartySize( dto.getPartySize() );
+        reservation.setReservationTime( dto.getReservationTime() );
+        reservation.setTableId( dto.getTableId() );
+
+        return reservation;
+    }
+
+    @Override
+    public Reservation toEntity(ReservationUpdateDTO dto) {
+        if ( dto == null ) {
+            return null;
+        }
+
+        Reservation reservation = new Reservation();
+
+        reservation.setPartySize( dto.getPartySize() );
+        reservation.setReservationTime( dto.getReservationTime() );
+
+        return reservation;
+    }
+
+    @Override
+    public ReservationResponseDTO toResponseDTO(Reservation entity) {
+        if ( entity == null ) {
+            return null;
+        }
+
+        ReservationResponseDTO reservationResponseDTO = new ReservationResponseDTO();
+
+        reservationResponseDTO.setReservationId( entity.getReservationId() );
+        if ( entity.getStatus() != null ) {
+            reservationResponseDTO.setStatus( entity.getStatus().name() );
+        }
+
+        return reservationResponseDTO;
+    }
+
+    @Override
+    public ReservationFullResponseDTO toFullResponseDTO(Reservation entity) {
+        if ( entity == null ) {
+            return null;
+        }
+
+        ReservationFullResponseDTO reservationFullResponseDTO = new ReservationFullResponseDTO();
+
+        reservationFullResponseDTO.setBranchId( entity.getBranchId() );
+        reservationFullResponseDTO.setCustomerId( entity.getCustomerId() );
+        reservationFullResponseDTO.setPartySize( entity.getPartySize() );
+        reservationFullResponseDTO.setReservationId( entity.getReservationId() );
+        reservationFullResponseDTO.setReservationTime( entity.getReservationTime() );
+        if ( entity.getStatus() != null ) {
+            reservationFullResponseDTO.setStatus( entity.getStatus().name() );
+        }
+        reservationFullResponseDTO.setTableId( entity.getTableId() );
+
+        return reservationFullResponseDTO;
+    }
+}

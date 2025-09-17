@@ -1,0 +1,32 @@
+package com.hilcoe.crms.mapper;
+
+import com.hilcoe.crms.entity.StockMovement;
+import com.hilcoe.crms.dto.StockMovementDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
+import com.hilcoe.crms.entity.InventoryItem;
+
+@Mapper(componentModel = "spring", uses = {InventoryItemMapper.class})
+public interface StockMovementMapper {
+    StockMovementMapper INSTANCE = Mappers.getMapper(StockMovementMapper.class);
+
+    @Mapping(source = "inventoryItem.inventoryItemId", target = "inventoryItemId")
+    @Mapping(source = "movementId", target = "movementId")
+    StockMovementDTO toDTO(StockMovement entity);
+
+    @Mapping(source = "inventoryItemId", target = "inventoryItem.inventoryItemId")
+    @Mapping(source = "movementId", target = "movementId")
+    StockMovement toEntity(StockMovementDTO dto);
+
+    default Long mapInventoryItemToId(InventoryItem inventoryItem) {
+        return inventoryItem != null ? inventoryItem.getInventoryItemId() : null;
+    }
+
+    default InventoryItem mapIdToInventoryItem(Long inventoryItemId) {
+        if (inventoryItemId == null) return null;
+        InventoryItem item = new InventoryItem();
+        item.setInventoryItemId(inventoryItemId);
+        return item;
+    }
+}
