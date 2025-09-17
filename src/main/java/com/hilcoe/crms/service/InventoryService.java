@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +37,8 @@ public class InventoryService {
     private SupplierRepository supplierRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AuditLogService auditLogService;
 
     public InventoryItemResponseDTO addItem(InventoryItemDTO dto) {
         InventoryItem item = new InventoryItem();
@@ -47,12 +50,20 @@ public class InventoryService {
             .orElseThrow(() -> new com.hilcoe.crms.exception.SupplierNotFoundException(dto.getSupplierId()));
         item.setSupplier(supplier);
         InventoryItem saved = inventoryItemRepository.save(item);
+        auditLogService.log(getCurrentUserId(), "CREATE", "InventoryItem", saved.getInventoryItemId(), saved);
         return toResponseDTO(saved);
     }
 
     public InventoryItemResponseDTO updateItem(Long id, InventoryItemDTO dto) {
         InventoryItem item = inventoryItemRepository.findById(id)
             .orElseThrow(() -> new com.hilcoe.crms.exception.InventoryItemNotFoundException("Inventory item not found with id: " + id));
+        InventoryItem before = new InventoryItem();
+        before.setInventoryItemId(item.getInventoryItemId());
+        before.setName(item.getName());
+        before.setUnit(item.getUnit());
+        before.setQuantity(item.getQuantity());
+        before.setThreshold(item.getThreshold());
+        before.setSupplier(item.getSupplier());
         item.setName(dto.getName());
         item.setUnit(dto.getUnit());
         item.setQuantity(dto.getQuantity());
@@ -61,6 +72,10 @@ public class InventoryService {
             .orElseThrow(() -> new com.hilcoe.crms.exception.SupplierNotFoundException(dto.getSupplierId()));
         item.setSupplier(supplier);
         InventoryItem updated = inventoryItemRepository.save(item);
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("before", before);
+        data.put("after", updated);
+        auditLogService.log(getCurrentUserId(), "UPDATE", "InventoryItem", updated.getInventoryItemId(), data);
         return toResponseDTO(updated);
     }
 
@@ -78,6 +93,13 @@ public class InventoryService {
     public InventoryItemResponseDTO adjustStock(Long id, StockAdjustmentDTO dto) {
         InventoryItem item = inventoryItemRepository.findById(id)
             .orElseThrow(() -> new com.hilcoe.crms.exception.InventoryItemNotFoundException("Inventory item not found with id: " + id));
+        InventoryItem before = new InventoryItem();
+        before.setInventoryItemId(item.getInventoryItemId());
+        before.setName(item.getName());
+        before.setUnit(item.getUnit());
+        before.setQuantity(item.getQuantity());
+        before.setThreshold(item.getThreshold());
+        before.setSupplier(item.getSupplier());
         BigDecimal newQuantity = item.getQuantity().add(dto.getQuantityChange());
         item.setQuantity(newQuantity);
         InventoryItem updated = inventoryItemRepository.save(item);
@@ -87,12 +109,17 @@ public class InventoryService {
         movement.setReason(dto.getReason());
         movement.setCreatedBy(getCurrentUserId());
         stockMovementRepository.save(movement);
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("before", before);
+        data.put("after", updated);
+        auditLogService.log(getCurrentUserId(), "UPDATE", "InventoryItem", updated.getInventoryItemId(), data);
         return toResponseDTO(updated);
     }
 
     public void deleteItem(Long id) {
-        inventoryItemRepository.findById(id)
+        InventoryItem item = inventoryItemRepository.findById(id)
             .orElseThrow(() -> new com.hilcoe.crms.exception.InventoryItemNotFoundException("Inventory item not found with id: " + id));
+        auditLogService.log(getCurrentUserId(), "DELETE", "InventoryItem", item.getInventoryItemId(), item);
         inventoryItemRepository.deleteById(id);
     }
 

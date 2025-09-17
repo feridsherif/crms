@@ -16,8 +16,12 @@ public class WaiterRequest {
 	@Column(name = "branch_id", nullable = false)
 	private Long branchId;
 
-	@Column(name = "request_type", nullable = false)
-	private String requestType;
+	@Enumerated(EnumType.STRING)
+	@Column(
+		name = "request_type",
+		nullable = false
+	)
+	private RequestType requestType;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status", nullable = false)
@@ -29,7 +33,7 @@ public class WaiterRequest {
 	public WaiterRequest() {
 	}
 
-	public WaiterRequest(Long requestId, Long tableId, Long branchId, String requestType, RequestStatus status,
+	public WaiterRequest(Long requestId, Long tableId, Long branchId, RequestType requestType, RequestStatus status,
 			Long handledBy) {
 		this.requestId = requestId;
 		this.tableId = tableId;
@@ -63,11 +67,11 @@ public class WaiterRequest {
 		this.branchId = branchId;
 	}
 
-	public String getRequestType() {
+	public RequestType getRequestType() {
 		return requestType;
 	}
 
-	public void setRequestType(String requestType) {
+	public void setRequestType(RequestType requestType) {
 		this.requestType = requestType;
 	}
 
@@ -90,5 +94,10 @@ public class WaiterRequest {
 	// Enum for request status
 	public static enum RequestStatus {
 		NEW, ACKNOWLEDGED, RESOLVED
+	}
+
+	// Enum for request type
+	public static enum RequestType {
+		CALL_WAITER, REQUEST_BILL, ORDER_ASSISTANCE, CLEAN_TABLE, OTHER
 	}
 }

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import com.hilcoe.crms.dto.PaginatedResponseDTO;
+import com.hilcoe.crms.service.AuditLogService;
+import java.util.HashMap;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,8 +23,10 @@ public class MenuService {
 	private MenuItemRepository menuItemRepository;
 	@Autowired
 	private CategoryRepository categoryRepository;
+	@Autowired
+	private AuditLogService auditLogService;
 
-	public MenuItemResponseDTO addItem(MenuItemDTO dto) {
+	public MenuItemResponseDTO addItem(MenuItemDTO dto, Long userId) {
 		MenuItem item = new MenuItem();
 		Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow();
 		item.setCategory(category);
@@ -31,12 +35,20 @@ public class MenuService {
 		item.setPrice(dto.getPrice());
 		item.setIsAvailable(dto.getIsAvailable());
 		MenuItem saved = menuItemRepository.save(item);
+		auditLogService.log(userId, "CREATE", "MenuItem", saved.getMenuItemId(), saved);
 		return toResponseDTO(saved);
 	}
 
-	public MenuItemResponseDTO updateItem(Long id, MenuItemDTO dto) {
+	public MenuItemResponseDTO updateItem(Long id, MenuItemDTO dto, Long userId) {
 		MenuItem item = menuItemRepository.findById(id)
 			.orElseThrow(() -> new com.hilcoe.crms.exception.MenuItemNotFoundException("Menu item not found with id: " + id));
+		MenuItem before = new MenuItem();
+		before.setMenuItemId(item.getMenuItemId());
+		before.setCategory(item.getCategory());
+		before.setName(item.getName());
+		before.setDescription(item.getDescription());
+		before.setPrice(item.getPrice());
+		before.setIsAvailable(item.getIsAvailable());
 		Category category = categoryRepository.findById(dto.getCategoryId())
 			.orElseThrow(() -> new com.hilcoe.crms.exception.MenuItemNotFoundException("Category not found with id: " + dto.getCategoryId()));
 		item.setCategory(category);
@@ -45,15 +57,19 @@ public class MenuService {
 		item.setPrice(dto.getPrice());
 		item.setIsAvailable(dto.getIsAvailable());
 		MenuItem updated = menuItemRepository.save(item);
+		HashMap<String, Object> data = new HashMap<>();
+		data.put("before", before);
+		data.put("after", updated);
+		auditLogService.log(userId, "UPDATE", "MenuItem", updated.getMenuItemId(), data);
 		return toResponseDTO(updated);
 	}
 
-	public void deleteItem(Long id) {
-        if (!menuItemRepository.existsById(id)) {
-            throw new com.hilcoe.crms.exception.MenuItemNotFoundException(id);
-        }
-        menuItemRepository.deleteById(id);
-    }
+	public void deleteItem(Long id, Long userId) {
+		MenuItem item = menuItemRepository.findById(id)
+			.orElseThrow(() -> new com.hilcoe.crms.exception.MenuItemNotFoundException(id));
+		auditLogService.log(userId, "DELETE", "MenuItem", item.getMenuItemId(), item);
+		menuItemRepository.deleteById(id);
+	}
 
 	public List<MenuItemResponseDTO> getMenu() {
 		return menuItemRepository.findAll().stream().map(this::toResponseDTO).collect(Collectors.toList());

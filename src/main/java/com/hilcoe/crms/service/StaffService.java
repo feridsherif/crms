@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,38 +23,61 @@ public class StaffService {
     @Autowired
     private RoleRepository roleRepository;
 
-    public StaffResponseDTO addStaff(StaffDTO dto) {
+    @Autowired
+    private AuditLogService auditLogService;
+
+    public StaffResponseDTO addStaff(StaffDTO dto, Long userId) {
         Staff staff = new Staff();
         staff.setUserId(dto.getUserId());
         staff.setRoleId(dto.getRoleId());
         staff.setContact(dto.getContact());
         Staff saved = staffRepository.save(staff);
+        auditLogService.log(userId, "CREATE", "Staff", saved.getStaffId(), saved);
         return toResponseDTO(saved);
     }
 
-    public StaffResponseDTO updateStaff(Long id, StaffDTO dto) {
+    public StaffResponseDTO updateStaff(Long id, StaffDTO dto, Long userId) {
         Staff staff = staffRepository.findById(id)
             .orElseThrow(() -> new com.hilcoe.crms.exception.StaffNotFoundException("Staff not found with id: " + id));
+        Staff before = new Staff();
+        before.setStaffId(staff.getStaffId());
+        before.setUserId(staff.getUserId());
+        before.setRoleId(staff.getRoleId());
+        before.setContact(staff.getContact());
         staff.setUserId(dto.getUserId());
         staff.setRoleId(dto.getRoleId());
         staff.setContact(dto.getContact());
         Staff updated = staffRepository.save(staff);
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("before", before);
+        data.put("after", updated);
+        auditLogService.log(userId, "UPDATE", "Staff", updated.getStaffId(), data);
         return toResponseDTO(updated);
     }
 
-    public void removeStaff(Long id) {
+    public void removeStaff(Long id, Long userId) {
         Staff staff = staffRepository.findById(id)
             .orElseThrow(() -> new com.hilcoe.crms.exception.StaffNotFoundException("Staff not found with id: " + id));
+        auditLogService.log(userId, "DELETE", "Staff", staff.getStaffId(), staff);
         staffRepository.deleteById(id);
     }
 
-    public void assignRole(Long staffId, Long roleId) {
+    public void assignRole(Long staffId, Long roleId, Long userId) {
         Staff staff = staffRepository.findById(staffId)
             .orElseThrow(() -> new com.hilcoe.crms.exception.StaffNotFoundException("Staff not found with id: " + staffId));
         Role role = roleRepository.findById(roleId)
             .orElseThrow(() -> new com.hilcoe.crms.exception.RoleNotFoundException("Role not found with id: " + roleId));
+        Staff before = new Staff();
+        before.setStaffId(staff.getStaffId());
+        before.setUserId(staff.getUserId());
+        before.setRoleId(staff.getRoleId());
+        before.setContact(staff.getContact());
         staff.setRole(role);
-        staffRepository.save(staff);
+        Staff updated = staffRepository.save(staff);
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("before", before);
+        data.put("after", updated);
+        auditLogService.log(userId, "UPDATE", "Staff", updated.getStaffId(), data);
     }
 
     public List<StaffResponseDTO> getStaff() {

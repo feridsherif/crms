@@ -1,5 +1,7 @@
 package com.hilcoe.crms.dto;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
@@ -9,6 +11,8 @@ public class OrderCreateDTO {
 	@NotNull
 	private Long tableId;
 	@NotNull
+	@NotEmpty
+	@Valid
 	private List<OrderItemDTO> items;
 
 	public OrderCreateDTO() {

@@ -25,7 +25,12 @@ public class JwtUtil {
 	public String generateToken(User user) {
 		Date now = new Date();
 		Date expiryDate = new Date(now.getTime() + TOKEN_VALIDITY);
-		return Jwts.builder().subject(user.getUsername()).issuedAt(now).expiration(expiryDate).signWith(getSignKey())
+		return Jwts.builder()
+				.subject(user.getUsername())
+				.claim("userId", user.getUserId())
+				.issuedAt(now)
+				.expiration(expiryDate)
+				.signWith(getSignKey())
 				.compact();
 	}
 
@@ -58,6 +63,24 @@ public class JwtUtil {
 			return null;
 		}
 		return claimsResolver.apply(claims);
+	}
+
+	public Long extractUserId(String token) {
+		Claims claims = extractAllClaims(token);
+		if (claims == null) return null;
+		Object userIdObj = claims.get("userId");
+		if (userIdObj instanceof Integer) {
+			return ((Integer) userIdObj).longValue();
+		} else if (userIdObj instanceof Long) {
+			return (Long) userIdObj;
+		} else if (userIdObj instanceof String) {
+			try {
+				return Long.valueOf((String) userIdObj);
+			} catch (NumberFormatException e) {
+				return null;
+			}
+		}
+		return null;
 	}
 
 	private boolean isTokenExpired(String token) {

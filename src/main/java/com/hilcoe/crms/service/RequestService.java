@@ -3,6 +3,7 @@ package com.hilcoe.crms.service;
 import com.hilcoe.crms.dto.WaiterRequestDTO;
 import com.hilcoe.crms.dto.WaiterRequestResponseDTO;
 import com.hilcoe.crms.entity.WaiterRequest;
+import com.hilcoe.crms.exception.WaiterRequestNotFound;
 import com.hilcoe.crms.repository.WaiterRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,23 +19,27 @@ public class RequestService {
     public WaiterRequestResponseDTO createRequest(WaiterRequestDTO dto, Long userId) {
         WaiterRequest request = new WaiterRequest();
         request.setTableId(dto.getTableId());
+        request.setBranchId(dto.getBranchId());
         request.setRequestType(dto.getRequestType());
         request.setStatus(WaiterRequest.RequestStatus.NEW);
-        request.setHandledBy(userId);
+        // handledBy should be null on create
         WaiterRequest saved = waiterRequestRepository.save(request);
         return toDTO(saved);
     }
 
     public void acknowledgeRequest(Long id, Long waiterId) {
-        WaiterRequest request = waiterRequestRepository.findById(id).orElseThrow();
+        WaiterRequest request = waiterRequestRepository.findById(id)
+            .orElseThrow(() -> new WaiterRequestNotFound(id));
         request.setStatus(WaiterRequest.RequestStatus.ACKNOWLEDGED);
-        request.setHandledBy(waiterId);
+        // handledBy should not be set here
         waiterRequestRepository.save(request);
     }
 
-    public void resolveRequest(Long id) {
-        WaiterRequest request = waiterRequestRepository.findById(id).orElseThrow();
+    public void resolveRequest(Long id, Long waiterId) {
+        WaiterRequest request = waiterRequestRepository.findById(id)
+            .orElseThrow(() -> new WaiterRequestNotFound(id));
         request.setStatus(WaiterRequest.RequestStatus.RESOLVED);
+        request.setHandledBy(waiterId);
         waiterRequestRepository.save(request);
     }
 
@@ -45,7 +50,11 @@ public class RequestService {
     private WaiterRequestResponseDTO toDTO(WaiterRequest request) {
         WaiterRequestResponseDTO dto = new WaiterRequestResponseDTO();
         dto.setRequestId(request.getRequestId());
+        dto.setTableId(request.getTableId());
+        dto.setBranchId(request.getBranchId());
+        dto.setRequestType(request.getRequestType());
         dto.setStatus(request.getStatus().name());
+        dto.setHandledBy(request.getHandledBy());
         return dto;
     }
 }

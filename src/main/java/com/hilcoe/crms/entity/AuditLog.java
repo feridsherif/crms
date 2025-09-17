@@ -26,15 +26,19 @@ public class AuditLog {
 	@Column(name = "timestamp", nullable = false)
 	private LocalDateTime timestamp;
 
+	@Column(name = "data", columnDefinition = "TEXT")
+	private String data;
+
 	public AuditLog() {}
 
-	public AuditLog(Long auditId, Long userId, String action, String entity, Long entityId, java.time.LocalDateTime timestamp) {
+	public AuditLog(Long auditId, Long userId, String action, String entity, Long entityId, java.time.LocalDateTime timestamp, String data) {
         this.auditId = auditId;
         this.userId = userId;
         this.action = action;
         this.entity = entity;
         this.entityId = entityId;
         this.timestamp = timestamp;
+        this.data = data;
     }
 
 	public Long getAuditId() {
@@ -83,5 +87,13 @@ public class AuditLog {
 
 	public void setTimestamp(LocalDateTime timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	public String getData() {
+		return data;
+	}
+
+	public void setData(String data) {
+		this.data = data;
 	}
 }

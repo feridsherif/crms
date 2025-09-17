@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,22 +19,35 @@ public class BranchService {
 	@Autowired
 	private BranchRepository branchRepository;
 
-	public BranchResponseDTO addBranch(BranchDTO dto) {
+	@Autowired
+	private AuditLogService auditLogService;
+
+	public BranchResponseDTO addBranch(BranchDTO dto, Long userId) {
 		Branch branch = new Branch();
 		branch.setName(dto.getName());
 		branch.setAddress(dto.getAddress());
 		branch.setPhone(dto.getPhone());
 		Branch saved = branchRepository.save(branch);
+		auditLogService.log(userId, "CREATE", "Branch", saved.getBranchId(), saved);
 		return toResponseDTO(saved);
 	}
 
-	public BranchResponseDTO updateBranch(Long id, BranchDTO dto) {
+	public BranchResponseDTO updateBranch(Long id, BranchDTO dto, Long userId) {
 		Branch branch = branchRepository.findById(id)
 			.orElseThrow(() -> new com.hilcoe.crms.exception.BranchNotFoundException("Branch not found with id: " + id));
+		Branch before = new Branch();
+		before.setBranchId(branch.getBranchId());
+		before.setName(branch.getName());
+		before.setAddress(branch.getAddress());
+		before.setPhone(branch.getPhone());
 		branch.setName(dto.getName());
 		branch.setAddress(dto.getAddress());
 		branch.setPhone(dto.getPhone());
 		Branch updated = branchRepository.save(branch);
+		HashMap<String, Object> data = new HashMap<>();
+		data.put("before", before);
+		data.put("after", updated);
+		auditLogService.log(userId, "UPDATE", "Branch", updated.getBranchId(), data);
 		return toResponseDTO(updated);
 	}
 
@@ -41,9 +55,10 @@ public class BranchService {
 		return branchRepository.findAll().stream().map(this::toResponseDTO).collect(Collectors.toList());
 	}
 
-	public void deleteBranch(Long id) {
-		branchRepository.findById(id)
+	public void deleteBranch(Long id, Long userId) {
+		Branch branch = branchRepository.findById(id)
 			.orElseThrow(() -> new com.hilcoe.crms.exception.BranchNotFoundException("Branch not found with id: " + id));
+		auditLogService.log(userId, "DELETE", "Branch", branch.getBranchId(), branch);
 		branchRepository.deleteById(id);
 	}
 

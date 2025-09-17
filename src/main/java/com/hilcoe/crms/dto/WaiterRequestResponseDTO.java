@@ -1,5 +1,6 @@
 package com.hilcoe.crms.dto;
 
+import com.hilcoe.crms.entity.WaiterRequest;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
 
@@ -10,11 +11,10 @@ public class WaiterRequestResponseDTO {
     private Long tableId;
     @NotNull
     private Long branchId;
-    @NotBlank
-    private String requestType;
+    @NotNull
+    private WaiterRequest.RequestType requestType;
     @NotBlank
     private String status;
-    @NotNull
     private Long handledBy;
 
     public WaiterRequestResponseDTO() {
@@ -22,15 +22,15 @@ public class WaiterRequestResponseDTO {
 	}
 
 	public WaiterRequestResponseDTO(@NotNull Long requestId, @NotNull Long tableId, @NotNull Long branchId,
-			@NotBlank String requestType, @NotBlank String status, @NotNull Long handledBy) {
-		super();
-		this.requestId = requestId;
-		this.tableId = tableId;
-		this.branchId = branchId;
-		this.requestType = requestType;
-		this.status = status;
-		this.handledBy = handledBy;
-	}
+            @NotNull WaiterRequest.RequestType requestType, @NotBlank String status, Long handledBy) {
+        super();
+        this.requestId = requestId;
+        this.tableId = tableId;
+        this.branchId = branchId;
+        this.requestType = requestType;
+        this.status = status;
+        this.handledBy = handledBy;
+    }
 
 	public Long getRequestId() {
         return requestId;
@@ -56,11 +56,11 @@ public class WaiterRequestResponseDTO {
         this.branchId = branchId;
     }
 
-    public String getRequestType() {
+    public WaiterRequest.RequestType getRequestType() {
         return requestType;
     }
 
-    public void setRequestType(String requestType) {
+    public void setRequestType(WaiterRequest.RequestType requestType) {
         this.requestType = requestType;
     }
 

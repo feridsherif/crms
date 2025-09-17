@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import com.hilcoe.crms.dto.PaginatedResponseDTO;
+import com.hilcoe.crms.security.JwtUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -22,27 +23,38 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @PostMapping
-    public ResponseEntity<Object> createReservation(@Valid @RequestBody ReservationCreateDTO dto) {
-        ReservationResponseDTO response = reservationService.createReservation(dto);
+    public ResponseEntity<Object> createReservation(@Valid @RequestBody ReservationCreateDTO dto, @RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        Long userId = jwtUtil.extractUserId(token);
+        ReservationResponseDTO response = reservationService.createReservation(dto, userId);
         return ResponseEntity.ok(new ApiResponse<>("success", "Reservation created", response));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateReservation(@PathVariable Long id, @Valid @RequestBody ReservationUpdateDTO dto) {
-        ReservationResponseDTO response = reservationService.updateReservation(id, dto);
+    public ResponseEntity<Object> updateReservation(@PathVariable Long id, @Valid @RequestBody ReservationUpdateDTO dto, @RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        Long userId = jwtUtil.extractUserId(token);
+        ReservationResponseDTO response = reservationService.updateReservation(id, dto, userId);
         return ResponseEntity.ok(new ApiResponse<>("success", "Reservation updated", response));
     }
 
     @PatchMapping("/{id}/cancel")
-    public ResponseEntity<Object> cancelReservation(@PathVariable Long id) {
-        reservationService.cancelReservation(id);
+    public ResponseEntity<Object> cancelReservation(@PathVariable Long id, @RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        Long userId = jwtUtil.extractUserId(token);
+        reservationService.cancelReservation(id, userId);
         return ResponseEntity.ok(new ApiResponse<>("success", "Reservation cancelled", null));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteReservation(@PathVariable Long id) {
-        reservationService.deleteReservation(id);
+    public ResponseEntity<Object> deleteReservation(@PathVariable Long id, @RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        Long userId = jwtUtil.extractUserId(token);
+        reservationService.deleteReservation(id, userId);
         return ResponseEntity.ok(new ApiResponse<>("success", "Reservation deleted", null));
     }
 
@@ -67,14 +79,18 @@ public class ReservationController {
     }
 
     @PatchMapping("/{id}/confirm")
-    public ResponseEntity<Object> confirmReservation(@PathVariable Long id) {
-        ReservationResponseDTO response = reservationService.confirmReservation(id);
+    public ResponseEntity<Object> confirmReservation(@PathVariable Long id, @RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        Long userId = jwtUtil.extractUserId(token);
+        ReservationResponseDTO response = reservationService.confirmReservation(id, userId);
         return ResponseEntity.ok(new ApiResponse<>("success", "Reservation confirmed", response));
     }
 
     @PatchMapping("/{id}/complete")
-    public ResponseEntity<Object> completeReservation(@PathVariable Long id) {
-        ReservationResponseDTO response = reservationService.completeReservation(id);
+    public ResponseEntity<Object> completeReservation(@PathVariable Long id, @RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        Long userId = jwtUtil.extractUserId(token);
+        ReservationResponseDTO response = reservationService.completeReservation(id, userId);
         return ResponseEntity.ok(new ApiResponse<>("success", "Reservation completed", response));
     }
 }
