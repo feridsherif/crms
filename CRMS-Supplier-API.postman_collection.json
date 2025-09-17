@@ -1,0 +1,88 @@
+{
+  "info": {
+    "_postman_id": "crms-supplier-collection-2025",
+    "name": "CRMS Supplier API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Postman collection for CRMS Supplier endpoints. Uses JWT authentication. Set api_url and jwt_token as environment variables."
+  },
+  "item": [
+    {
+      "name": "Add Supplier",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{jwt_token}}", "type": "text" },
+          { "key": "Content-Type", "value": "application/json", "type": "text" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Acme Foods\",\n  \"contact\": \"John Doe\",\n  \"phone\": \"+1234567890\",\n  \"terms\": \"Net 30\"\n}"
+        },
+        "url": { "raw": "{{api_url}}/suppliers", "host": ["{{api_url}}"], "path": ["suppliers"] }
+      }
+    },
+    {
+      "name": "Update Supplier",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{jwt_token}}", "type": "text" },
+          { "key": "Content-Type", "value": "application/json", "type": "text" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Acme Foods Updated\",\n  \"contact\": \"Jane Smith\",\n  \"phone\": \"+1234567899\",\n  \"terms\": \"Net 45\"\n}"
+        },
+        "url": { "raw": "{{api_url}}/suppliers/1", "host": ["{{api_url}}"], "path": ["suppliers", "1"] }
+      }
+    },
+    {
+      "name": "Delete Supplier",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{jwt_token}}", "type": "text" }
+        ],
+        "url": { "raw": "{{api_url}}/suppliers/1", "host": ["{{api_url}}"], "path": ["suppliers", "1"] }
+      }
+    },
+    {
+      "name": "Get All Suppliers (Non-Paginated)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{jwt_token}}", "type": "text" }
+        ],
+        "url": { "raw": "{{api_url}}/suppliers", "host": ["{{api_url}}"], "path": ["suppliers"] }
+      }
+    },
+    {
+      "name": "Get Supplier by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{jwt_token}}", "type": "text" }
+        ],
+        "url": { "raw": "{{api_url}}/suppliers/1", "host": ["{{api_url}}"], "path": ["suppliers", "1"] }
+      }
+    },
+    {
+      "name": "Get Suppliers (Paginated)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{jwt_token}}", "type": "text" }
+        ],
+        "url": {
+          "raw": "{{api_url}}/suppliers/paginated?page=0&size=10",
+          "host": ["{{api_url}}"],
+          "path": ["suppliers", "paginated"],
+          "query": [
+            { "key": "page", "value": "0" },
+            { "key": "size", "value": "10" }
+          ]
+        }
+      }
+    }
+  ]
+}

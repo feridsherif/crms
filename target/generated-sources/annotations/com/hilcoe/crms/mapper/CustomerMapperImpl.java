@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-09-16T19:41:59+0300",
+    date = "2025-09-17T09:18:42+0300",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.43.0.v20250819-1513, environment: Java 21.0.8 (Eclipse Adoptium)"
 )
 @Component
@@ -23,13 +23,13 @@ public class CustomerMapperImpl implements CustomerMapper {
         CustomerDTO customerDTO = new CustomerDTO();
 
         customerDTO.setUserId( entityUserUserId( entity ) );
-        customerDTO.setCreatedAt( entity.getCreatedAt() );
         customerDTO.setCustomerId( entity.getCustomerId() );
         customerDTO.setLoyaltyId( entity.getLoyaltyId() );
-        customerDTO.setName( entity.getName() );
         customerDTO.setNotes( entity.getNotes() );
-        customerDTO.setPhone( entity.getPhone() );
+        customerDTO.setCreatedAt( entity.getCreatedAt() );
         customerDTO.setUpdatedAt( entity.getUpdatedAt() );
+        customerDTO.setName( entity.getName() );
+        customerDTO.setPhone( entity.getPhone() );
 
         return customerDTO;
     }
@@ -42,13 +42,13 @@ public class CustomerMapperImpl implements CustomerMapper {
 
         Customer customer = new Customer();
 
-        customer.setCreatedAt( dto.getCreatedAt() );
         customer.setCustomerId( dto.getCustomerId() );
         customer.setLoyaltyId( dto.getLoyaltyId() );
-        customer.setName( dto.getName() );
         customer.setNotes( dto.getNotes() );
-        customer.setPhone( dto.getPhone() );
+        customer.setCreatedAt( dto.getCreatedAt() );
         customer.setUpdatedAt( dto.getUpdatedAt() );
+        customer.setName( dto.getName() );
+        customer.setPhone( dto.getPhone() );
 
         return customer;
     }

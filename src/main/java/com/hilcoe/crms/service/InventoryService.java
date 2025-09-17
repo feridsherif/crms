@@ -4,18 +4,25 @@ import com.hilcoe.crms.dto.InventoryItemDTO;
 import com.hilcoe.crms.dto.InventoryItemResponseDTO;
 import com.hilcoe.crms.dto.PaginatedResponseDTO;
 import com.hilcoe.crms.dto.StockAdjustmentDTO;
+import com.hilcoe.crms.dto.InventoryReportDTO;
 import com.hilcoe.crms.entity.InventoryItem;
 import com.hilcoe.crms.entity.StockMovement;
 import com.hilcoe.crms.entity.Supplier;
 import com.hilcoe.crms.repository.InventoryItemRepository;
 import com.hilcoe.crms.repository.StockMovementRepository;
 import com.hilcoe.crms.repository.SupplierRepository;
+import com.hilcoe.crms.repository.UserRepository;
+import com.hilcoe.crms.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +34,8 @@ public class InventoryService {
     private StockMovementRepository stockMovementRepository;
     @Autowired
     private SupplierRepository supplierRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public InventoryItemResponseDTO addItem(InventoryItemDTO dto) {
         InventoryItem item = new InventoryItem();
@@ -34,7 +43,8 @@ public class InventoryService {
         item.setUnit(dto.getUnit());
         item.setQuantity(dto.getQuantity());
         item.setThreshold(dto.getThreshold());
-        Supplier supplier = supplierRepository.findById(dto.getSupplierId()).orElseThrow();
+        Supplier supplier = supplierRepository.findById(dto.getSupplierId())
+            .orElseThrow(() -> new com.hilcoe.crms.exception.SupplierNotFoundException(dto.getSupplierId()));
         item.setSupplier(supplier);
         InventoryItem saved = inventoryItemRepository.save(item);
         return toResponseDTO(saved);
@@ -47,14 +57,27 @@ public class InventoryService {
         item.setUnit(dto.getUnit());
         item.setQuantity(dto.getQuantity());
         item.setThreshold(dto.getThreshold());
-        Supplier supplier = supplierRepository.findById(dto.getSupplierId()).orElseThrow();
+        Supplier supplier = supplierRepository.findById(dto.getSupplierId())
+            .orElseThrow(() -> new com.hilcoe.crms.exception.SupplierNotFoundException(dto.getSupplierId()));
         item.setSupplier(supplier);
         InventoryItem updated = inventoryItemRepository.save(item);
         return toResponseDTO(updated);
     }
 
+    private Long getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("No authenticated user found");
+        }
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username)
+            .orElseThrow(() -> new RuntimeException("User not found for username: " + username));
+        return user.getUserId();
+    }
+
     public InventoryItemResponseDTO adjustStock(Long id, StockAdjustmentDTO dto) {
-        InventoryItem item = inventoryItemRepository.findById(id).orElseThrow();
+        InventoryItem item = inventoryItemRepository.findById(id)
+            .orElseThrow(() -> new com.hilcoe.crms.exception.InventoryItemNotFoundException("Inventory item not found with id: " + id));
         BigDecimal newQuantity = item.getQuantity().add(dto.getQuantityChange());
         item.setQuantity(newQuantity);
         InventoryItem updated = inventoryItemRepository.save(item);
@@ -62,6 +85,7 @@ public class InventoryService {
         movement.setInventoryItem(item);
         movement.setQuantityChange(dto.getQuantityChange());
         movement.setReason(dto.getReason());
+        movement.setCreatedBy(getCurrentUserId());
         stockMovementRepository.save(movement);
         return toResponseDTO(updated);
     }
@@ -72,8 +96,63 @@ public class InventoryService {
         inventoryItemRepository.deleteById(id);
     }
 
-    public List<InventoryItemResponseDTO> generateReport() {
+    public InventoryItemResponseDTO getInventoryItem(Long id) {
+        InventoryItem item = inventoryItemRepository.findById(id)
+            .orElseThrow(() -> new com.hilcoe.crms.exception.InventoryItemNotFoundException("Inventory item not found with id: " + id));
+        return toResponseDTO(item);
+    }
+
+    public List<InventoryItemResponseDTO> getInventoryItems() {
         return inventoryItemRepository.findAll().stream().map(this::toResponseDTO).collect(Collectors.toList());
+    }
+
+    public InventoryReportDTO generateReport() {
+        List<InventoryItem> items = inventoryItemRepository.findAll();
+        List<InventoryReportDTO.ItemReport> itemReports = new ArrayList<>();
+        List<InventoryReportDTO.ItemReport> lowStockReports = new ArrayList<>();
+        BigDecimal totalValue = BigDecimal.ZERO;
+        for (InventoryItem item : items) {
+            InventoryReportDTO.ItemReport report = new InventoryReportDTO.ItemReport();
+            report.id = item.getInventoryItemId();
+            report.name = item.getName();
+            report.unit = item.getUnit();
+            report.quantity = item.getQuantity();
+            report.threshold = item.getThreshold();
+            // Supplier info
+            Supplier supplier = item.getSupplier();
+            if (supplier != null) {
+                InventoryReportDTO.SupplierInfo supplierInfo = new InventoryReportDTO.SupplierInfo();
+                supplierInfo.id = supplier.getSupplierId();
+                supplierInfo.name = supplier.getName();
+                supplierInfo.contact = supplier.getContact();
+                supplierInfo.phone = supplier.getPhone();
+                supplierInfo.terms = supplier.getTerms();
+                report.supplier = supplierInfo;
+            }
+            // Recent stock movements
+            List<StockMovement> movements = stockMovementRepository.findTop5ByInventoryItem_InventoryItemIdOrderByMovementIdDesc(item.getInventoryItemId());
+            List<InventoryReportDTO.StockMovementInfo> movementInfos = new ArrayList<>();
+            for (StockMovement m : movements) {
+                InventoryReportDTO.StockMovementInfo mi = new InventoryReportDTO.StockMovementInfo();
+                // No date field in StockMovement, so use movementId as proxy (or add date if available)
+                mi.date = String.valueOf(m.getMovementId());
+                mi.quantityChange = m.getQuantityChange();
+                mi.reason = m.getReason();
+                movementInfos.add(mi);
+            }
+            report.recentMovements = movementInfos;
+            // No price/cost, so itemValue is null
+            report.itemValue = null;
+            itemReports.add(report);
+            if (item.getQuantity().compareTo(item.getThreshold()) < 0) {
+                lowStockReports.add(report);
+            }
+        }
+        InventoryReportDTO reportDTO = new InventoryReportDTO();
+        reportDTO.items = itemReports;
+        reportDTO.lowStockItems = lowStockReports;
+        reportDTO.totalInventoryValue = totalValue;
+        return reportDTO;
     }
 
     public PaginatedResponseDTO<InventoryItemResponseDTO> getInventoryPaginated(Pageable pageable) {

@@ -31,12 +31,9 @@ public class MenuController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> deleteMenuItem(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteMenuItem(@PathVariable Long id) {
         menuService.deleteItem(id);
-        Map<String, Object> response = new java.util.HashMap<>();
-        response.put("success", true);
-        response.put("message", "Menu item deleted");
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(new ApiResponse<>("success", "Menu item deleted", null));
     }
 
     @GetMapping
@@ -49,6 +46,21 @@ public class MenuController {
     public ResponseEntity<Object> getMenuPaginated(@RequestParam(defaultValue = "0") int page,
                                                   @RequestParam(defaultValue = "10") int size) {
         PaginatedResponseDTO<MenuItemResponseDTO> menu = menuService.getMenuPaginated(PageRequest.of(page, size));
+        return ResponseEntity.ok(new ApiResponse<>("success", "Menu fetched", menu));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getMenuItemById(@PathVariable Long id) {
+        MenuItemResponseDTO menuItem = menuService.getMenuItemById(id);
+        return ResponseEntity.ok(new ApiResponse<>("success", "Menu item fetched", menuItem));
+    }
+
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<Object> getMenuByCategoryPaginated(
+            @PathVariable Long categoryId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        PaginatedResponseDTO<MenuItemResponseDTO> menu = menuService.getMenuByCategoryPaginated(categoryId, PageRequest.of(page, size));
         return ResponseEntity.ok(new ApiResponse<>("success", "Menu fetched", menu));
     }
 }

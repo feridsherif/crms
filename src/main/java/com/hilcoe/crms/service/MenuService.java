@@ -49,8 +49,11 @@ public class MenuService {
 	}
 
 	public void deleteItem(Long id) {
-		menuItemRepository.deleteById(id);
-	}
+        if (!menuItemRepository.existsById(id)) {
+            throw new com.hilcoe.crms.exception.MenuItemNotFoundException(id);
+        }
+        menuItemRepository.deleteById(id);
+    }
 
 	public List<MenuItemResponseDTO> getMenu() {
 		return menuItemRepository.findAll().stream().map(this::toResponseDTO).collect(Collectors.toList());
@@ -71,6 +74,31 @@ public class MenuService {
         long lastElementIndex = firstElementIndex + content.size() - 1;
         String nextPageUrl = null; // TODO: Generate if needed
         String previousPageUrl = null; // TODO: Generate if needed
+        return new PaginatedResponseDTO<>(content, pageNum, pageSize, totalElements, totalPages,
+            hasNext, hasPrevious, sort, filter, firstElementIndex, lastElementIndex, nextPageUrl, previousPageUrl);
+    }
+
+	public MenuItemResponseDTO getMenuItemById(Long id) {
+        MenuItem item = menuItemRepository.findById(id)
+            .orElseThrow(() -> new com.hilcoe.crms.exception.MenuItemNotFoundException(id));
+        return toResponseDTO(item);
+    }
+
+    public PaginatedResponseDTO<MenuItemResponseDTO> getMenuByCategoryPaginated(Long categoryId, Pageable pageable) {
+        Page<MenuItem> page = menuItemRepository.findByCategory_CategoryId(categoryId, pageable);
+        List<MenuItemResponseDTO> content = page.getContent().stream().map(this::toResponseDTO).collect(Collectors.toList());
+        int pageNum = page.getNumber();
+        int pageSize = page.getSize();
+        long totalElements = page.getTotalElements();
+        int totalPages = page.getTotalPages();
+        boolean hasNext = page.hasNext();
+        boolean hasPrevious = page.hasPrevious();
+        String sort = pageable.getSort().toString();
+        Object filter = categoryId;
+        long firstElementIndex = pageNum * pageSize + 1;
+        long lastElementIndex = firstElementIndex + content.size() - 1;
+        String nextPageUrl = null;
+        String previousPageUrl = null;
         return new PaginatedResponseDTO<>(content, pageNum, pageSize, totalElements, totalPages,
             hasNext, hasPrevious, sort, filter, firstElementIndex, lastElementIndex, nextPageUrl, previousPageUrl);
     }

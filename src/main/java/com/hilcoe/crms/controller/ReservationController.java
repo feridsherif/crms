@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import com.hilcoe.crms.dto.PaginatedResponseDTO;
 
 import java.util.List;
@@ -33,10 +34,22 @@ public class ReservationController {
         return ResponseEntity.ok(new ApiResponse<>("success", "Reservation updated", response));
     }
 
-    @DeleteMapping("/{id}")
+    @PatchMapping("/{id}/cancel")
     public ResponseEntity<Object> cancelReservation(@PathVariable Long id) {
         reservationService.cancelReservation(id);
         return ResponseEntity.ok(new ApiResponse<>("success", "Reservation cancelled", null));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteReservation(@PathVariable Long id) {
+        reservationService.deleteReservation(id);
+        return ResponseEntity.ok(new ApiResponse<>("success", "Reservation deleted", null));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getReservation(@PathVariable Long id) {
+        ReservationFullResponseDTO reservation = reservationService.getReservation(id);
+        return ResponseEntity.ok(new ApiResponse<>("success", "Reservation fetched", reservation));
     }
 
     @GetMapping
@@ -48,7 +61,8 @@ public class ReservationController {
     @GetMapping("/paginated")
     public ResponseEntity<Object> getReservationsPaginated(@RequestParam(defaultValue = "0") int page,
                                                          @RequestParam(defaultValue = "10") int size) {
-        PaginatedResponseDTO<ReservationFullResponseDTO> reservations = reservationService.getReservationsPaginated(PageRequest.of(page, size));
+        Pageable pageable = PageRequest.of(page, size);
+        PaginatedResponseDTO<ReservationFullResponseDTO> reservations = reservationService.getReservationsPaginated(pageable);
         return ResponseEntity.ok(new ApiResponse<>("success", "Reservations fetched", reservations));
     }
 

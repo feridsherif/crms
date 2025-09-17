@@ -48,11 +48,50 @@ public class ReservationService {
     public void cancelReservation(Long id) {
         Reservation reservation = reservationRepository.findById(id)
             .orElseThrow(() -> new com.hilcoe.crms.exception.ReservationNotFoundException("Reservation not found with id: " + id));
-        if (reservation.getStatus() == Reservation.ReservationStatus.COMPLETED) {
-            throw new com.hilcoe.crms.exception.ReservationCancellationNotAllowedException(id);
+        if (reservation.getStatus() != Reservation.ReservationStatus.PENDING) {
+            throw new com.hilcoe.crms.exception.ReservationCancellationNotAllowedException(
+                "Reservation can only be canceled if status is PENDING. Current status: " + reservation.getStatus());
         }
         reservation.setStatus(Reservation.ReservationStatus.CANCELLED);
         reservationRepository.save(reservation);
+    }
+
+    public void deleteReservation(Long id) {
+        Reservation reservation = reservationRepository.findById(id)
+            .orElseThrow(() -> new com.hilcoe.crms.exception.ReservationNotFoundException("Reservation not found with id: " + id));
+        if (reservation.getStatus() != Reservation.ReservationStatus.PENDING) {
+            throw new com.hilcoe.crms.exception.ReservationUpdateNotAllowedException(
+                "Reservation can only be deleted if status is PENDING. Current status: " + reservation.getStatus());
+        }
+        reservationRepository.deleteById(id);
+    }
+
+    public ReservationResponseDTO confirmReservation(Long id) {
+        Reservation reservation = reservationRepository.findById(id)
+            .orElseThrow(() -> new com.hilcoe.crms.exception.ReservationNotFoundException("Reservation not found with id: " + id));
+        if (reservation.getStatus() != Reservation.ReservationStatus.PENDING) {
+            throw new com.hilcoe.crms.exception.ReservationStatusUpdateNotAllowedException(id, "CONFIRMED: Only PENDING reservations can be confirmed.");
+        }
+        reservation.setStatus(Reservation.ReservationStatus.CONFIRMED);
+        Reservation updated = reservationRepository.save(reservation);
+        return toDTO(updated);
+    }
+
+    public ReservationResponseDTO completeReservation(Long id) {
+        Reservation reservation = reservationRepository.findById(id)
+            .orElseThrow(() -> new com.hilcoe.crms.exception.ReservationNotFoundException("Reservation not found with id: " + id));
+        if (reservation.getStatus() != Reservation.ReservationStatus.CONFIRMED) {
+            throw new com.hilcoe.crms.exception.ReservationStatusUpdateNotAllowedException(id, "COMPLETED: Only CONFIRMED reservations can be completed.");
+        }
+        reservation.setStatus(Reservation.ReservationStatus.COMPLETED);
+        Reservation updated = reservationRepository.save(reservation);
+        return toDTO(updated);
+    }
+
+    public ReservationFullResponseDTO getReservation(Long id) {
+        Reservation reservation = reservationRepository.findById(id)
+            .orElseThrow(() -> new com.hilcoe.crms.exception.ReservationNotFoundException("Reservation not found with id: " + id));
+        return toFullResponseDTO(reservation);
     }
 
     public List<ReservationFullResponseDTO> getReservations() {
@@ -69,37 +108,12 @@ public class ReservationService {
         boolean hasNext = page.hasNext();
         boolean hasPrevious = page.hasPrevious();
         String sort = pageable.getSort().toString();
-        Object filter = null; // No filter logic for now
+        Object filter = null;
         long firstElementIndex = pageNum * pageSize + 1;
         long lastElementIndex = firstElementIndex + content.size() - 1;
-        String nextPageUrl = null; // TODO: Generate if needed
-        String previousPageUrl = null; // TODO: Generate if needed
-        return new PaginatedResponseDTO<>(content, pageNum, pageSize, totalElements, totalPages,
-            hasNext, hasPrevious, sort, filter, firstElementIndex, lastElementIndex, nextPageUrl, previousPageUrl);
-    }
-
-    public ReservationResponseDTO confirmReservation(Long id) {
-        Reservation reservation = reservationRepository.findById(id)
-            .orElseThrow(() -> new com.hilcoe.crms.exception.ReservationNotFoundException("Reservation not found with id: " + id));
-        if (reservation.getStatus() == Reservation.ReservationStatus.CANCELLED ||
-            reservation.getStatus() == Reservation.ReservationStatus.COMPLETED) {
-            throw new com.hilcoe.crms.exception.ReservationStatusUpdateNotAllowedException(id, "CONFIRMED");
-        }
-        reservation.setStatus(Reservation.ReservationStatus.CONFIRMED);
-        Reservation updated = reservationRepository.save(reservation);
-        return toDTO(updated);
-    }
-
-    public ReservationResponseDTO completeReservation(Long id) {
-        Reservation reservation = reservationRepository.findById(id)
-            .orElseThrow(() -> new com.hilcoe.crms.exception.ReservationNotFoundException("Reservation not found with id: " + id));
-        if (reservation.getStatus() == Reservation.ReservationStatus.CANCELLED ||
-            reservation.getStatus() == Reservation.ReservationStatus.COMPLETED) {
-            throw new com.hilcoe.crms.exception.ReservationStatusUpdateNotAllowedException(id, "COMPLETED");
-        }
-        reservation.setStatus(Reservation.ReservationStatus.COMPLETED);
-        Reservation updated = reservationRepository.save(reservation);
-        return toDTO(updated);
+        String nextPageUrl = null;
+        String previousPageUrl = null;
+        return new PaginatedResponseDTO<>(content, pageNum, pageSize, totalElements, totalPages, hasNext, hasPrevious, sort, filter, firstElementIndex, lastElementIndex, nextPageUrl, previousPageUrl);
     }
 
     private ReservationResponseDTO toDTO(Reservation reservation) {

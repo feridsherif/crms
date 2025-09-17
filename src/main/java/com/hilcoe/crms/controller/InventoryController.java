@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.hilcoe.crms.dto.PaginatedResponseDTO;
+import com.hilcoe.crms.dto.InventoryReportDTO;
 
 @RestController
 @RequestMapping("/api/v1/inventory")
@@ -40,7 +41,7 @@ public class InventoryController {
 
     @GetMapping("/report")
     public ResponseEntity<Object> generateReport() {
-        List<InventoryItemResponseDTO> report = inventoryService.generateReport();
+        InventoryReportDTO report = inventoryService.generateReport();
         return ResponseEntity.ok(new ApiResponse<>("success", "Report generated", report));
     }
 
@@ -58,5 +59,17 @@ public class InventoryController {
                                                       @RequestParam(defaultValue = "10") int size) {
         PaginatedResponseDTO<InventoryItemResponseDTO> items = inventoryService.getInventoryPaginated(PageRequest.of(page, size));
         return ResponseEntity.ok(new ApiResponse<>("success", "Inventory fetched", items));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getInventoryItem(@PathVariable Long id) {
+        InventoryItemResponseDTO item = inventoryService.getInventoryItem(id);
+        return ResponseEntity.ok(new ApiResponse<>("success", "Inventory item fetched", item));
+    }
+
+    @GetMapping
+    public ResponseEntity<Object> getInventoryItems() {
+        List<InventoryItemResponseDTO> items = inventoryService.getInventoryItems();
+        return ResponseEntity.ok(new ApiResponse<>("success", "Inventory items fetched", items));
     }
 }
