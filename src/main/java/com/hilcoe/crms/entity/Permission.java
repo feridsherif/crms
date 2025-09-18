@@ -1,20 +1,25 @@
 package com.hilcoe.crms.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "permissions")
 public class Permission {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "permission_id")
-	private Long permissionId;
+	@Column(name = "description", nullable = false)
+	private String description;
 
 	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Column(name = "description", nullable = false)
-	private String description;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "permission_id")
+	private Long permissionId;
 
 	public Permission() {
 	}
@@ -25,27 +30,27 @@ public class Permission {
 		this.description = description;
 	}
 
-	public Long getPermissionId() {
-		return permissionId;
-	}
-
-	public void setPermissionId(Long permissionId) {
-		this.permissionId = permissionId;
+	public String getDescription() {
+		return description;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
+	public Long getPermissionId() {
+		return permissionId;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPermissionId(Long permissionId) {
+		this.permissionId = permissionId;
 	}
 }

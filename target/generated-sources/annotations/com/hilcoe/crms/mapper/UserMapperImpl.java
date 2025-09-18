@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-09-17T15:31:26+0300",
+    date = "2025-09-18T17:03:02+0300",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.43.0.v20250819-1513, environment: Java 21.0.8 (Eclipse Adoptium)"
 )
 @Component
@@ -23,9 +23,9 @@ public class UserMapperImpl implements UserMapper {
         UserDTO userDTO = new UserDTO();
 
         userDTO.setRoleIds( mapRolesToIds( entity.getRoles() ) );
+        userDTO.setEmail( entity.getEmail() );
         userDTO.setUserId( entity.getUserId() );
         userDTO.setUsername( entity.getUsername() );
-        userDTO.setEmail( entity.getEmail() );
 
         return userDTO;
     }
@@ -39,8 +39,8 @@ public class UserMapperImpl implements UserMapper {
         User user = new User();
 
         user.setRoles( mapIdsToRoles( dto.getRoleIds() ) );
-        user.setUsername( dto.getUsername() );
         user.setEmail( dto.getEmail() );
+        user.setUsername( dto.getUsername() );
 
         return user;
     }
@@ -54,9 +54,9 @@ public class UserMapperImpl implements UserMapper {
         UserResponseDTO userResponseDTO = new UserResponseDTO();
 
         userResponseDTO.setRoleIds( mapRolesToIds( entity.getRoles() ) );
+        userResponseDTO.setEmail( entity.getEmail() );
         userResponseDTO.setUserId( entity.getUserId() );
         userResponseDTO.setUsername( entity.getUsername() );
-        userResponseDTO.setEmail( entity.getEmail() );
 
         return userResponseDTO;
     }

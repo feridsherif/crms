@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-09-17T15:31:26+0300",
+    date = "2025-09-18T17:03:02+0300",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.43.0.v20250819-1513, environment: Java 21.0.8 (Eclipse Adoptium)"
 )
 @Component
@@ -23,11 +23,11 @@ public class RestaurantTableMapperImpl implements RestaurantTableMapper {
 
         RestaurantTableDTO restaurantTableDTO = new RestaurantTableDTO();
 
-        restaurantTableDTO.setTableId( entity.getTableId() );
         restaurantTableDTO.setBranchId( entity.getBranchId() );
-        restaurantTableDTO.setTableNumber( entity.getTableNumber() );
         restaurantTableDTO.setCapacity( entity.getCapacity() );
         restaurantTableDTO.setLocation( entity.getLocation() );
+        restaurantTableDTO.setTableId( entity.getTableId() );
+        restaurantTableDTO.setTableNumber( entity.getTableNumber() );
 
         return restaurantTableDTO;
     }
@@ -41,9 +41,9 @@ public class RestaurantTableMapperImpl implements RestaurantTableMapper {
         RestaurantTable restaurantTable = new RestaurantTable();
 
         restaurantTable.setBranch( branchIdToBranch( dto.getBranchId() ) );
-        restaurantTable.setTableNumber( dto.getTableNumber() );
         restaurantTable.setCapacity( dto.getCapacity() );
         restaurantTable.setLocation( dto.getLocation() );
+        restaurantTable.setTableNumber( dto.getTableNumber() );
 
         return restaurantTable;
     }
@@ -57,11 +57,11 @@ public class RestaurantTableMapperImpl implements RestaurantTableMapper {
         RestaurantTableResponseDTO restaurantTableResponseDTO = new RestaurantTableResponseDTO();
 
         restaurantTableResponseDTO.setBranchId( entityBranchBranchId( entity ) );
-        restaurantTableResponseDTO.setTableId( entity.getTableId() );
-        restaurantTableResponseDTO.setTableNumber( entity.getTableNumber() );
         restaurantTableResponseDTO.setCapacity( entity.getCapacity() );
         restaurantTableResponseDTO.setLocation( entity.getLocation() );
         restaurantTableResponseDTO.setStatus( entity.getStatus() );
+        restaurantTableResponseDTO.setTableId( entity.getTableId() );
+        restaurantTableResponseDTO.setTableNumber( entity.getTableNumber() );
 
         return restaurantTableResponseDTO;
     }

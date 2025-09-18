@@ -1,32 +1,35 @@
 package com.hilcoe.crms.mapper;
 
-import com.hilcoe.crms.entity.Branch;
-import com.hilcoe.crms.entity.RestaurantTable;
-import com.hilcoe.crms.dto.RestaurantTableDTO;
-import com.hilcoe.crms.dto.RestaurantTableResponseDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
+import com.hilcoe.crms.dto.RestaurantTableDTO;
+import com.hilcoe.crms.dto.RestaurantTableResponseDTO;
+import com.hilcoe.crms.entity.Branch;
+import com.hilcoe.crms.entity.RestaurantTable;
+
 @Mapper(componentModel = "spring")
 public interface RestaurantTableMapper {
-    RestaurantTableMapper INSTANCE = Mappers.getMapper(RestaurantTableMapper.class);
+	RestaurantTableMapper INSTANCE = Mappers.getMapper(RestaurantTableMapper.class);
 
-    RestaurantTableDTO toDTO(RestaurantTable entity);
+	@Named("branchIdToBranch")
+	default Branch branchIdToBranch(Long branchId) {
+		if (branchId == null) {
+			return null;
+		}
+		Branch branch = new Branch();
+		branch.setBranchId(branchId);
+		return branch;
+	}
 
-    @Mapping(target = "branch", source = "branchId", qualifiedByName = "branchIdToBranch")
-    @Mapping(target = "tableId", ignore = true)
-    RestaurantTable toEntity(RestaurantTableDTO dto);
+	RestaurantTableDTO toDTO(RestaurantTable entity);
 
-    @Mapping(target = "branchId", source = "branch.branchId")
-    RestaurantTableResponseDTO toResponseDTO(RestaurantTable entity);
+	@Mapping(target = "branch", source = "branchId", qualifiedByName = "branchIdToBranch")
+	@Mapping(target = "tableId", ignore = true)
+	RestaurantTable toEntity(RestaurantTableDTO dto);
 
-    @Named("branchIdToBranch")
-    default Branch branchIdToBranch(Long branchId) {
-        if (branchId == null) return null;
-        Branch branch = new Branch();
-        branch.setBranchId(branchId);
-        return branch;
-    }
+	@Mapping(target = "branchId", source = "branch.branchId")
+	RestaurantTableResponseDTO toResponseDTO(RestaurantTable entity);
 }

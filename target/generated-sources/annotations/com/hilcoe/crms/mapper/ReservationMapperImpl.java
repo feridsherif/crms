@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-09-17T15:31:26+0300",
+    date = "2025-09-18T17:03:02+0300",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.43.0.v20250819-1513, environment: Java 21.0.8 (Eclipse Adoptium)"
 )
 @Component
@@ -25,9 +25,9 @@ public class ReservationMapperImpl implements ReservationMapper {
         Reservation reservation = new Reservation();
 
         reservation.setCustomerId( dto.getCustomerId() );
-        reservation.setTableId( dto.getTableId() );
-        reservation.setReservationTime( dto.getReservationTime() );
         reservation.setPartySize( dto.getPartySize() );
+        reservation.setReservationTime( dto.getReservationTime() );
+        reservation.setTableId( dto.getTableId() );
 
         return reservation;
     }
@@ -40,10 +40,31 @@ public class ReservationMapperImpl implements ReservationMapper {
 
         Reservation reservation = new Reservation();
 
-        reservation.setReservationTime( dto.getReservationTime() );
         reservation.setPartySize( dto.getPartySize() );
+        reservation.setReservationTime( dto.getReservationTime() );
 
         return reservation;
+    }
+
+    @Override
+    public ReservationFullResponseDTO toFullResponseDTO(Reservation entity) {
+        if ( entity == null ) {
+            return null;
+        }
+
+        ReservationFullResponseDTO reservationFullResponseDTO = new ReservationFullResponseDTO();
+
+        reservationFullResponseDTO.setBranchId( entity.getBranchId() );
+        reservationFullResponseDTO.setCustomerId( entity.getCustomerId() );
+        reservationFullResponseDTO.setPartySize( entity.getPartySize() );
+        reservationFullResponseDTO.setReservationId( entity.getReservationId() );
+        reservationFullResponseDTO.setReservationTime( entity.getReservationTime() );
+        if ( entity.getStatus() != null ) {
+            reservationFullResponseDTO.setStatus( entity.getStatus().name() );
+        }
+        reservationFullResponseDTO.setTableId( entity.getTableId() );
+
+        return reservationFullResponseDTO;
     }
 
     @Override
@@ -60,26 +81,5 @@ public class ReservationMapperImpl implements ReservationMapper {
         }
 
         return reservationResponseDTO;
-    }
-
-    @Override
-    public ReservationFullResponseDTO toFullResponseDTO(Reservation entity) {
-        if ( entity == null ) {
-            return null;
-        }
-
-        ReservationFullResponseDTO reservationFullResponseDTO = new ReservationFullResponseDTO();
-
-        reservationFullResponseDTO.setReservationId( entity.getReservationId() );
-        reservationFullResponseDTO.setCustomerId( entity.getCustomerId() );
-        reservationFullResponseDTO.setTableId( entity.getTableId() );
-        reservationFullResponseDTO.setBranchId( entity.getBranchId() );
-        reservationFullResponseDTO.setReservationTime( entity.getReservationTime() );
-        reservationFullResponseDTO.setPartySize( entity.getPartySize() );
-        if ( entity.getStatus() != null ) {
-            reservationFullResponseDTO.setStatus( entity.getStatus().name() );
-        }
-
-        return reservationFullResponseDTO;
     }
 }

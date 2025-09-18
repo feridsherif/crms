@@ -1,10 +1,24 @@
 package com.hilcoe.crms.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "staff")
 public class Staff {
+	@Column(name = "contact", nullable = false)
+	private String contact;
+
+	@ManyToOne
+	@JoinColumn(name = "role_id", nullable = false)
+	private Role role;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "staff_id")
@@ -12,13 +26,6 @@ public class Staff {
 
 	@Column(name = "user_id", nullable = false)
 	private Long userId;
-
-	@ManyToOne
-	@JoinColumn(name = "role_id", nullable = false)
-	private Role role;
-
-	@Column(name = "contact", nullable = false)
-	private String contact;
 
 	public Staff() {
 	}
@@ -30,24 +37,28 @@ public class Staff {
 		this.contact = contact;
 	}
 
-	public Long getStaffId() {
-		return staffId;
+	public String getContact() {
+		return contact;
 	}
 
-	public void setStaffId(Long staffId) {
-		this.staffId = staffId;
+	public Role getRole() {
+		return role;
+	}
+
+	public Long getRoleId() {
+		return role != null ? role.getRoleId() : null;
+	}
+
+	public Long getStaffId() {
+		return staffId;
 	}
 
 	public Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-
-	public Role getRole() {
-		return role;
+	public void setContact(String contact) {
+		this.contact = contact;
 	}
 
 	public void setRole(Role role) {
@@ -61,15 +72,11 @@ public class Staff {
 		this.role.setRoleId(roleId);
 	}
 
-	public Long getRoleId() {
-		return role != null ? role.getRoleId() : null;
+	public void setStaffId(Long staffId) {
+		this.staffId = staffId;
 	}
 
-	public String getContact() {
-		return contact;
-	}
-
-	public void setContact(String contact) {
-		this.contact = contact;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 }

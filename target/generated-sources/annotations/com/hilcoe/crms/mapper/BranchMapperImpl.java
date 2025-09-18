@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-09-17T15:31:26+0300",
+    date = "2025-09-18T17:03:02+0300",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.43.0.v20250819-1513, environment: Java 21.0.8 (Eclipse Adoptium)"
 )
 @Component
@@ -22,8 +22,8 @@ public class BranchMapperImpl implements BranchMapper {
 
         BranchDTO branchDTO = new BranchDTO();
 
-        branchDTO.setName( branch.getName() );
         branchDTO.setAddress( branch.getAddress() );
+        branchDTO.setName( branch.getName() );
         branchDTO.setPhone( branch.getPhone() );
 
         return branchDTO;
@@ -37,8 +37,8 @@ public class BranchMapperImpl implements BranchMapper {
 
         Branch branch = new Branch();
 
-        branch.setName( branchDTO.getName() );
         branch.setAddress( branchDTO.getAddress() );
+        branch.setName( branchDTO.getName() );
         branch.setPhone( branchDTO.getPhone() );
 
         return branch;
@@ -52,9 +52,9 @@ public class BranchMapperImpl implements BranchMapper {
 
         BranchResponseDTO branchResponseDTO = new BranchResponseDTO();
 
+        branchResponseDTO.setAddress( branch.getAddress() );
         branchResponseDTO.setBranchId( branch.getBranchId() );
         branchResponseDTO.setName( branch.getName() );
-        branchResponseDTO.setAddress( branch.getAddress() );
         branchResponseDTO.setPhone( branch.getPhone() );
 
         return branchResponseDTO;

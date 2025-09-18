@@ -1,7 +1,9 @@
 package com.hilcoe.crms.repository;
 
-import com.hilcoe.crms.entity.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface ReservationRepository extends JpaRepository<Reservation, Long> {
+import com.hilcoe.crms.entity.Reservation;
+
+public interface ReservationRepository extends JpaRepository<Reservation, Long>, JpaSpecificationExecutor<Reservation> {
 }

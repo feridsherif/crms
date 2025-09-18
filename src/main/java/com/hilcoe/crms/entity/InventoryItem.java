@@ -1,7 +1,15 @@
 package com.hilcoe.crms.entity;
 
-import jakarta.persistence.*;
 import java.math.BigDecimal;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "inventory_items")
@@ -14,18 +22,18 @@ public class InventoryItem {
 	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Column(name = "unit", nullable = false)
-	private String unit;
-
 	@Column(name = "quantity", nullable = false)
 	private BigDecimal quantity;
-
-	@Column(name = "threshold", nullable = false)
-	private BigDecimal threshold;
 
 	@ManyToOne
 	@JoinColumn(name = "supplier_id", nullable = false)
 	private Supplier supplier;
+
+	@Column(name = "threshold", nullable = false)
+	private BigDecimal threshold;
+
+	@Column(name = "unit", nullable = false)
+	private String unit;
 
 	public InventoryItem() {
 	}
@@ -44,47 +52,47 @@ public class InventoryItem {
 		return inventoryItemId;
 	}
 
-	public void setInventoryItemId(Long inventoryItemId) {
-		this.inventoryItemId = inventoryItemId;
-	}
-
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getUnit() {
-		return unit;
-	}
-
-	public void setUnit(String unit) {
-		this.unit = unit;
 	}
 
 	public BigDecimal getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(BigDecimal quantity) {
-		this.quantity = quantity;
+	public Supplier getSupplier() {
+		return supplier;
 	}
 
 	public BigDecimal getThreshold() {
 		return threshold;
 	}
 
-	public void setThreshold(BigDecimal threshold) {
-		this.threshold = threshold;
+	public String getUnit() {
+		return unit;
 	}
 
-	public Supplier getSupplier() {
-		return supplier;
+	public void setInventoryItemId(Long inventoryItemId) {
+		this.inventoryItemId = inventoryItemId;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setQuantity(BigDecimal quantity) {
+		this.quantity = quantity;
 	}
 
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
+	}
+
+	public void setThreshold(BigDecimal threshold) {
+		this.threshold = threshold;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
 	}
 }

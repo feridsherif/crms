@@ -1,11 +1,12 @@
 package com.hilcoe.crms.mapper;
 
-import com.hilcoe.crms.entity.WaiterRequest;
-import com.hilcoe.crms.dto.WaiterRequestDTO;
-import com.hilcoe.crms.dto.WaiterRequestResponseDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+
+import com.hilcoe.crms.dto.WaiterRequestDTO;
+import com.hilcoe.crms.dto.WaiterRequestResponseDTO;
+import com.hilcoe.crms.entity.WaiterRequest;
 
 @Mapper(componentModel = "spring")
 public interface WaiterRequestMapper {

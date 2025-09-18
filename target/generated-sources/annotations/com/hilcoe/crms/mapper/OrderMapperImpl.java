@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-09-17T15:31:26+0300",
+    date = "2025-09-18T17:03:02+0300",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.43.0.v20250819-1513, environment: Java 21.0.8 (Eclipse Adoptium)"
 )
 @Component
@@ -30,6 +30,26 @@ public class OrderMapperImpl implements OrderMapper {
     }
 
     @Override
+    public OrderFullResponseDTO toFullResponseDTO(Order entity) {
+        if ( entity == null ) {
+            return null;
+        }
+
+        OrderFullResponseDTO orderFullResponseDTO = new OrderFullResponseDTO();
+
+        orderFullResponseDTO.setBranchId( entity.getBranchId() );
+        orderFullResponseDTO.setOrderId( entity.getOrderId() );
+        orderFullResponseDTO.setStaffId( entity.getStaffId() );
+        if ( entity.getStatus() != null ) {
+            orderFullResponseDTO.setStatus( entity.getStatus().name() );
+        }
+        orderFullResponseDTO.setTableId( entity.getTableId() );
+        orderFullResponseDTO.setTotalAmount( entity.getTotalAmount() );
+
+        return orderFullResponseDTO;
+    }
+
+    @Override
     public OrderResponseDTO toResponseDTO(Order entity) {
         if ( entity == null ) {
             return null;
@@ -43,25 +63,5 @@ public class OrderMapperImpl implements OrderMapper {
         }
 
         return orderResponseDTO;
-    }
-
-    @Override
-    public OrderFullResponseDTO toFullResponseDTO(Order entity) {
-        if ( entity == null ) {
-            return null;
-        }
-
-        OrderFullResponseDTO orderFullResponseDTO = new OrderFullResponseDTO();
-
-        orderFullResponseDTO.setOrderId( entity.getOrderId() );
-        orderFullResponseDTO.setBranchId( entity.getBranchId() );
-        orderFullResponseDTO.setTableId( entity.getTableId() );
-        orderFullResponseDTO.setStaffId( entity.getStaffId() );
-        if ( entity.getStatus() != null ) {
-            orderFullResponseDTO.setStatus( entity.getStatus().name() );
-        }
-        orderFullResponseDTO.setTotalAmount( entity.getTotalAmount() );
-
-        return orderFullResponseDTO;
     }
 }

@@ -1,11 +1,26 @@
 package com.hilcoe.crms.entity;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "shifts")
 public class Shift {
+	@ManyToOne
+	@JoinColumn(name = "branch_id", nullable = false)
+	private Branch branch;
+
+	@Column(name = "end_time", nullable = false)
+	private LocalDateTime endTime;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "shift_id")
@@ -15,15 +30,8 @@ public class Shift {
 	@JoinColumn(name = "staff_id", nullable = false)
 	private Staff staff;
 
-	@ManyToOne
-	@JoinColumn(name = "branch_id", nullable = false)
-	private Branch branch;
-
 	@Column(name = "start_time", nullable = false)
 	private LocalDateTime startTime;
-
-	@Column(name = "end_time", nullable = false)
-	private LocalDateTime endTime;
 
 	public Shift() {
 	}
@@ -37,43 +45,43 @@ public class Shift {
 		this.endTime = endTime;
 	}
 
-	public Long getShiftId() {
-		return shiftId;
-	}
-
-	public void setShiftId(Long shiftId) {
-		this.shiftId = shiftId;
-	}
-
-	public Staff getStaff() {
-		return staff;
-	}
-
-	public void setStaff(Staff staff) {
-		this.staff = staff;
-	}
-
 	public Branch getBranch() {
 		return branch;
-	}
-
-	public void setBranch(Branch branch) {
-		this.branch = branch;
-	}
-
-	public LocalDateTime getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(LocalDateTime startTime) {
-		this.startTime = startTime;
 	}
 
 	public LocalDateTime getEndTime() {
 		return endTime;
 	}
 
+	public Long getShiftId() {
+		return shiftId;
+	}
+
+	public Staff getStaff() {
+		return staff;
+	}
+
+	public LocalDateTime getStartTime() {
+		return startTime;
+	}
+
+	public void setBranch(Branch branch) {
+		this.branch = branch;
+	}
+
 	public void setEndTime(LocalDateTime endTime) {
 		this.endTime = endTime;
+	}
+
+	public void setShiftId(Long shiftId) {
+		this.shiftId = shiftId;
+	}
+
+	public void setStaff(Staff staff) {
+		this.staff = staff;
+	}
+
+	public void setStartTime(LocalDateTime startTime) {
+		this.startTime = startTime;
 	}
 }

@@ -1,7 +1,8 @@
 package com.hilcoe.crms.dto;
 
-import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
+
+import jakarta.validation.constraints.NotNull;
 
 public class StockAdjustmentDTO {
 	@NotNull
@@ -21,12 +22,12 @@ public class StockAdjustmentDTO {
 		return quantityChange;
 	}
 
-	public void setQuantityChange(BigDecimal quantityChange) {
-		this.quantityChange = quantityChange;
-	}
-
 	public String getReason() {
 		return reason;
+	}
+
+	public void setQuantityChange(BigDecimal quantityChange) {
+		this.quantityChange = quantityChange;
 	}
 
 	public void setReason(String reason) {

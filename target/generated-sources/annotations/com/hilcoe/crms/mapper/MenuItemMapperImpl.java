@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-09-17T15:31:26+0300",
+    date = "2025-09-18T17:03:02+0300",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.43.0.v20250819-1513, environment: Java 21.0.8 (Eclipse Adoptium)"
 )
 @Component
@@ -22,10 +22,10 @@ public class MenuItemMapperImpl implements MenuItemMapper {
 
         MenuItemDTO menuItemDTO = new MenuItemDTO();
 
-        menuItemDTO.setName( entity.getName() );
         menuItemDTO.setDescription( entity.getDescription() );
-        menuItemDTO.setPrice( entity.getPrice() );
         menuItemDTO.setIsAvailable( entity.getIsAvailable() );
+        menuItemDTO.setName( entity.getName() );
+        menuItemDTO.setPrice( entity.getPrice() );
 
         return menuItemDTO;
     }
@@ -38,10 +38,10 @@ public class MenuItemMapperImpl implements MenuItemMapper {
 
         MenuItem menuItem = new MenuItem();
 
-        menuItem.setName( dto.getName() );
         menuItem.setDescription( dto.getDescription() );
-        menuItem.setPrice( dto.getPrice() );
         menuItem.setIsAvailable( dto.getIsAvailable() );
+        menuItem.setName( dto.getName() );
+        menuItem.setPrice( dto.getPrice() );
 
         return menuItem;
     }
@@ -54,11 +54,11 @@ public class MenuItemMapperImpl implements MenuItemMapper {
 
         MenuItemResponseDTO menuItemResponseDTO = new MenuItemResponseDTO();
 
+        menuItemResponseDTO.setDescription( entity.getDescription() );
+        menuItemResponseDTO.setIsAvailable( entity.getIsAvailable() );
         menuItemResponseDTO.setMenuItemId( entity.getMenuItemId() );
         menuItemResponseDTO.setName( entity.getName() );
-        menuItemResponseDTO.setDescription( entity.getDescription() );
         menuItemResponseDTO.setPrice( entity.getPrice() );
-        menuItemResponseDTO.setIsAvailable( entity.getIsAvailable() );
 
         return menuItemResponseDTO;
     }

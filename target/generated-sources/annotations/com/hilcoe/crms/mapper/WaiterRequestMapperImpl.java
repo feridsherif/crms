@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-09-17T15:31:26+0300",
+    date = "2025-09-18T17:03:02+0300",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.43.0.v20250819-1513, environment: Java 21.0.8 (Eclipse Adoptium)"
 )
 @Component
@@ -22,8 +22,9 @@ public class WaiterRequestMapperImpl implements WaiterRequestMapper {
 
         WaiterRequest waiterRequest = new WaiterRequest();
 
-        waiterRequest.setTableId( dto.getTableId() );
+        waiterRequest.setCustomerId( dto.getCustomerId() );
         waiterRequest.setRequestType( dto.getRequestType() );
+        waiterRequest.setTableId( dto.getTableId() );
 
         return waiterRequest;
     }
@@ -36,14 +37,14 @@ public class WaiterRequestMapperImpl implements WaiterRequestMapper {
 
         WaiterRequestResponseDTO waiterRequestResponseDTO = new WaiterRequestResponseDTO();
 
-        waiterRequestResponseDTO.setRequestId( entity.getRequestId() );
-        waiterRequestResponseDTO.setTableId( entity.getTableId() );
         waiterRequestResponseDTO.setBranchId( entity.getBranchId() );
+        waiterRequestResponseDTO.setHandledBy( entity.getHandledBy() );
+        waiterRequestResponseDTO.setRequestId( entity.getRequestId() );
         waiterRequestResponseDTO.setRequestType( entity.getRequestType() );
         if ( entity.getStatus() != null ) {
             waiterRequestResponseDTO.setStatus( entity.getStatus().name() );
         }
-        waiterRequestResponseDTO.setHandledBy( entity.getHandledBy() );
+        waiterRequestResponseDTO.setTableId( entity.getTableId() );
 
         return waiterRequestResponseDTO;
     }

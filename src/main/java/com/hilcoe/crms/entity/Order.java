@@ -1,22 +1,37 @@
 package com.hilcoe.crms.entity;
 
-import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "orders")
 public class Order {
+	// Enum for order status
+	public static enum OrderStatus {
+		CANCELLED, COMPLETED, CREATED, IN_PROGRESS
+	}
+
+	@Column(name = "branch_id", nullable = false)
+	private Long branchId;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "order_id")
 	private Long orderId;
 
-	@Column(name = "branch_id", nullable = false)
-	private Long branchId;
-
-	@Column(name = "table_id", nullable = false)
-	private Long tableId;
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	private List<OrderItem> orderItems;
 
 	@Column(name = "staff_id", nullable = false)
 	private Long staffId;
@@ -25,11 +40,11 @@ public class Order {
 	@Column(name = "status", nullable = false)
 	private OrderStatus status;
 
+	@Column(name = "table_id", nullable = false)
+	private Long tableId;
+
 	@Column(name = "total_amount", nullable = false)
 	private BigDecimal totalAmount;
-
-	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-	private List<OrderItem> orderItems;
 
 	public Order() {
 	}
@@ -45,64 +60,59 @@ public class Order {
 		this.orderItems = orderItems;
 	}
 
-	public Long getOrderId() {
-		return orderId;
-	}
-
-	public void setOrderId(Long orderId) {
-		this.orderId = orderId;
-	}
-
 	public Long getBranchId() {
 		return branchId;
 	}
 
-	public void setBranchId(Long branchId) {
-		this.branchId = branchId;
-	}
-
-	public Long getTableId() {
-		return tableId;
-	}
-
-	public void setTableId(Long tableId) {
-		this.tableId = tableId;
-	}
-
-	public Long getStaffId() {
-		return staffId;
-	}
-
-	public void setStaffId(Long staffId) {
-		this.staffId = staffId;
-	}
-
-	public OrderStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(OrderStatus status) {
-		this.status = status;
-	}
-
-	public BigDecimal getTotalAmount() {
-		return totalAmount;
-	}
-
-	public void setTotalAmount(BigDecimal totalAmount) {
-		this.totalAmount = totalAmount;
+	public Long getOrderId() {
+		return orderId;
 	}
 
 	public List<OrderItem> getOrderItems() {
 		return orderItems;
 	}
 
+	public Long getStaffId() {
+		return staffId;
+	}
+
+	public OrderStatus getStatus() {
+		return status;
+	}
+
+	public Long getTableId() {
+		return tableId;
+	}
+
+	public BigDecimal getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setBranchId(Long branchId) {
+		this.branchId = branchId;
+	}
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
+
 	public void setOrderItems(List<OrderItem> orderItems) {
 		this.orderItems = orderItems;
 	}
 
-	// Enum for order status
-	public static enum OrderStatus {
-		CREATED, IN_PROGRESS, COMPLETED, CANCELLED
+	public void setStaffId(Long staffId) {
+		this.staffId = staffId;
+	}
+
+	public void setStatus(OrderStatus status) {
+		this.status = status;
+	}
+
+	public void setTableId(Long tableId) {
+		this.tableId = tableId;
+	}
+
+	public void setTotalAmount(BigDecimal totalAmount) {
+		this.totalAmount = totalAmount;
 	}
 }

@@ -1,17 +1,17 @@
 package com.hilcoe.crms.dto;
 
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class StaffResponseDTO {
+	@NotBlank
+	private String contact;
+	@NotNull
+	private Long roleId;
 	@NotNull
 	private Long staffId;
 	@NotNull
 	private Long userId;
-	@NotNull
-	private Long roleId;
-	@NotBlank
-	private String contact;
 
 	public StaffResponseDTO() {
 		super();
@@ -26,35 +26,35 @@ public class StaffResponseDTO {
 		this.contact = contact;
 	}
 
-	public Long getStaffId() {
-		return staffId;
-	}
-
-	public void setStaffId(Long staffId) {
-		this.staffId = staffId;
-	}
-
-	public Long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public String getContact() {
+		return contact;
 	}
 
 	public Long getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(Long roleId) {
-		this.roleId = roleId;
+	public Long getStaffId() {
+		return staffId;
 	}
 
-	public String getContact() {
-		return contact;
+	public Long getUserId() {
+		return userId;
 	}
 
 	public void setContact(String contact) {
 		this.contact = contact;
+	}
+
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
+	}
+
+	public void setStaffId(Long staffId) {
+		this.staffId = staffId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 }

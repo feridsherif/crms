@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-09-17T15:31:26+0300",
+    date = "2025-09-18T17:03:02+0300",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.43.0.v20250819-1513, environment: Java 21.0.8 (Eclipse Adoptium)"
 )
 @Component
@@ -23,9 +23,9 @@ public class InventoryItemMapperImpl implements InventoryItemMapper {
         InventoryItemDTO inventoryItemDTO = new InventoryItemDTO();
 
         inventoryItemDTO.setName( entity.getName() );
-        inventoryItemDTO.setUnit( entity.getUnit() );
         inventoryItemDTO.setQuantity( entity.getQuantity() );
         inventoryItemDTO.setThreshold( entity.getThreshold() );
+        inventoryItemDTO.setUnit( entity.getUnit() );
 
         return inventoryItemDTO;
     }
@@ -39,9 +39,9 @@ public class InventoryItemMapperImpl implements InventoryItemMapper {
         InventoryItem inventoryItem = new InventoryItem();
 
         inventoryItem.setName( dto.getName() );
-        inventoryItem.setUnit( dto.getUnit() );
         inventoryItem.setQuantity( dto.getQuantity() );
         inventoryItem.setThreshold( dto.getThreshold() );
+        inventoryItem.setUnit( dto.getUnit() );
 
         return inventoryItem;
     }
@@ -56,9 +56,9 @@ public class InventoryItemMapperImpl implements InventoryItemMapper {
 
         inventoryItemResponseDTO.setInventoryItemId( entity.getInventoryItemId() );
         inventoryItemResponseDTO.setName( entity.getName() );
-        inventoryItemResponseDTO.setUnit( entity.getUnit() );
         inventoryItemResponseDTO.setQuantity( entity.getQuantity() );
         inventoryItemResponseDTO.setThreshold( entity.getThreshold() );
+        inventoryItemResponseDTO.setUnit( entity.getUnit() );
 
         return inventoryItemResponseDTO;
     }

@@ -1,7 +1,7 @@
 package com.hilcoe.crms.dto;
 
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 public class OrderItemDTO {
 	@NotNull
@@ -23,12 +23,12 @@ public class OrderItemDTO {
 		return menuItemId;
 	}
 
-	public void setMenuItemId(Long menuItemId) {
-		this.menuItemId = menuItemId;
-	}
-
 	public int getQuantity() {
 		return quantity;
+	}
+
+	public void setMenuItemId(Long menuItemId) {
+		this.menuItemId = menuItemId;
 	}
 
 	public void setQuantity(int quantity) {

@@ -1,13 +1,14 @@
 package com.hilcoe.crms.dto;
 
-import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
+
+import jakarta.validation.constraints.NotNull;
 
 public class OrderItemResponseDTO {
 	@NotNull
-	private Long orderItemId;
-	@NotNull
 	private Long menuItemId;
+	@NotNull
+	private Long orderItemId;
 	@NotNull
 	private int quantity;
 	@NotNull
@@ -26,32 +27,32 @@ public class OrderItemResponseDTO {
 		this.unitPrice = unitPrice;
 	}
 
-	public Long getOrderItemId() {
-		return orderItemId;
-	}
-
-	public void setOrderItemId(Long orderItemId) {
-		this.orderItemId = orderItemId;
-	}
-
 	public Long getMenuItemId() {
 		return menuItemId;
 	}
 
-	public void setMenuItemId(Long menuItemId) {
-		this.menuItemId = menuItemId;
+	public Long getOrderItemId() {
+		return orderItemId;
 	}
 
 	public int getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
 	public BigDecimal getUnitPrice() {
 		return unitPrice;
+	}
+
+	public void setMenuItemId(Long menuItemId) {
+		this.menuItemId = menuItemId;
+	}
+
+	public void setOrderItemId(Long orderItemId) {
+		this.orderItemId = orderItemId;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	public void setUnitPrice(BigDecimal unitPrice) {

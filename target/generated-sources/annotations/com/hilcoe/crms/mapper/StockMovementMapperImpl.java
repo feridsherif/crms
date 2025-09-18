@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-09-17T15:31:26+0300",
+    date = "2025-09-18T17:03:02+0300",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.43.0.v20250819-1513, environment: Java 21.0.8 (Eclipse Adoptium)"
 )
 @Component
@@ -24,9 +24,9 @@ public class StockMovementMapperImpl implements StockMovementMapper {
 
         stockMovementDTO.setInventoryItemId( entityInventoryItemInventoryItemId( entity ) );
         stockMovementDTO.setMovementId( entity.getMovementId() );
+        stockMovementDTO.setCreatedBy( entity.getCreatedBy() );
         stockMovementDTO.setQuantityChange( entity.getQuantityChange() );
         stockMovementDTO.setReason( entity.getReason() );
-        stockMovementDTO.setCreatedBy( entity.getCreatedBy() );
 
         return stockMovementDTO;
     }
@@ -41,9 +41,9 @@ public class StockMovementMapperImpl implements StockMovementMapper {
 
         stockMovement.setInventoryItem( stockMovementDTOToInventoryItem( dto ) );
         stockMovement.setMovementId( dto.getMovementId() );
+        stockMovement.setCreatedBy( dto.getCreatedBy() );
         stockMovement.setQuantityChange( dto.getQuantityChange() );
         stockMovement.setReason( dto.getReason() );
-        stockMovement.setCreatedBy( dto.getCreatedBy() );
 
         return stockMovement;
     }

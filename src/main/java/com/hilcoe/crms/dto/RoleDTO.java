@@ -5,11 +5,11 @@ import java.util.Set;
 import jakarta.validation.constraints.NotBlank;
 
 public class RoleDTO {
-	private Long roleId;
+	private String description;
 	@NotBlank
 	private String name;
-	private String description;
 	private Set<Long> permissionIds;
+	private Long roleId;
 
 	public RoleDTO() {
 		super();
@@ -23,35 +23,35 @@ public class RoleDTO {
 		this.permissionIds = permissionIds;
 	}
 
-	public Long getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(Long roleId) {
-		this.roleId = roleId;
+	public String getDescription() {
+		return description;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public Set<Long> getPermissionIds() {
+		return permissionIds;
 	}
 
-	public String getDescription() {
-		return description;
+	public Long getRoleId() {
+		return roleId;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public Set<Long> getPermissionIds() {
-		return permissionIds;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setPermissionIds(Set<Long> permissionIds) {
 		this.permissionIds = permissionIds;
+	}
+
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
 	}
 }

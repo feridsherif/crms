@@ -1,19 +1,20 @@
 package com.hilcoe.crms.dto;
 
+import java.util.List;
+
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import java.util.List;
 
 public class OrderCreateDTO {
 	@NotNull
 	private Long branchId;
 	@NotNull
-	private Long tableId;
-	@NotNull
 	@NotEmpty
 	@Valid
 	private List<OrderItemDTO> items;
+	@NotNull
+	private Long tableId;
 
 	public OrderCreateDTO() {
 		super();
@@ -30,23 +31,23 @@ public class OrderCreateDTO {
 		return branchId;
 	}
 
-	public void setBranchId(Long branchId) {
-		this.branchId = branchId;
+	public List<OrderItemDTO> getItems() {
+		return items;
 	}
 
 	public Long getTableId() {
 		return tableId;
 	}
 
-	public void setTableId(Long tableId) {
-		this.tableId = tableId;
-	}
-
-	public List<OrderItemDTO> getItems() {
-		return items;
+	public void setBranchId(Long branchId) {
+		this.branchId = branchId;
 	}
 
 	public void setItems(List<OrderItemDTO> items) {
 		this.items = items;
+	}
+
+	public void setTableId(Long tableId) {
+		this.tableId = tableId;
 	}
 }

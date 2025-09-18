@@ -1,18 +1,19 @@
 package com.hilcoe.crms.dto;
 
 import java.math.BigDecimal;
+
 import jakarta.validation.constraints.NotNull;
 
 public class StockMovementDTO {
 	@NotNull
+	private Long createdBy;
+	@NotNull
 	private Long inventoryItemId;
+	private Long movementId;
 	@NotNull
 	private BigDecimal quantityChange;
 	@NotNull
 	private String reason;
-	@NotNull
-	private Long createdBy;
-	private Long movementId;
 
 	public StockMovementDTO() {
 		super();
@@ -25,43 +26,43 @@ public class StockMovementDTO {
 		this.createdBy = createdBy;
 	}
 
-	public Long getInventoryItemId() {
-		return inventoryItemId;
-	}
-
-	public void setInventoryItemId(Long inventoryItemId) {
-		this.inventoryItemId = inventoryItemId;
-	}
-
-	public BigDecimal getQuantityChange() {
-		return quantityChange;
-	}
-
-	public void setQuantityChange(BigDecimal quantityChange) {
-		this.quantityChange = quantityChange;
-	}
-
-	public String getReason() {
-		return reason;
-	}
-
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
-
 	public Long getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(Long createdBy) {
-		this.createdBy = createdBy;
+	public Long getInventoryItemId() {
+		return inventoryItemId;
 	}
 
 	public Long getMovementId() {
 		return movementId;
 	}
 
+	public BigDecimal getQuantityChange() {
+		return quantityChange;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setCreatedBy(Long createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public void setInventoryItemId(Long inventoryItemId) {
+		this.inventoryItemId = inventoryItemId;
+	}
+
 	public void setMovementId(Long movementId) {
 		this.movementId = movementId;
+	}
+
+	public void setQuantityChange(BigDecimal quantityChange) {
+		this.quantityChange = quantityChange;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
 	}
 }

@@ -1,13 +1,12 @@
 package com.hilcoe.crms.dto;
 
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
 
 public class PermissionDTO {
-	private Long permissionId;
+	private String description;
 	@NotBlank
 	private String name;
-	private String description;
+	private Long permissionId;
 
 	public PermissionDTO() {
 		super();
@@ -19,34 +18,34 @@ public class PermissionDTO {
 		this.name = name;
 		this.description = description;
 	}
-	
+
 	public PermissionDTO(@NotBlank String name, String description) {
 		super();
 		this.name = name;
 		this.description = description;
 	}
 
-	public Long getPermissionId() {
-		return permissionId;
-	}
-
-	public void setPermissionId(Long permissionId) {
-		this.permissionId = permissionId;
+	public String getDescription() {
+		return description;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
+	public Long getPermissionId() {
+		return permissionId;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPermissionId(Long permissionId) {
+		this.permissionId = permissionId;
 	}
 }

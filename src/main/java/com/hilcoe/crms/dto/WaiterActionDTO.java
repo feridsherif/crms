@@ -1,13 +1,13 @@
 package com.hilcoe.crms.dto;
 
 public class WaiterActionDTO {
-    private Long waiterId;
+	private Long waiterId;
 
-    public Long getWaiterId() {
-        return waiterId;
-    }
+	public Long getWaiterId() {
+		return waiterId;
+	}
 
-    public void setWaiterId(Long waiterId) {
-        this.waiterId = waiterId;
-    }
+	public void setWaiterId(Long waiterId) {
+		this.waiterId = waiterId;
+	}
 }

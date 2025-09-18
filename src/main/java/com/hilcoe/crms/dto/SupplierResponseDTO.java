@@ -1,17 +1,17 @@
 package com.hilcoe.crms.dto;
 
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class SupplierResponseDTO {
-	@NotNull
-	private Long supplierId;
-	@NotBlank
-	private String name;
 	@NotBlank
 	private String contact;
 	@NotBlank
+	private String name;
+	@NotBlank
 	private String phone;
+	@NotNull
+	private Long supplierId;
 	@NotBlank
 	private String terms;
 
@@ -29,40 +29,40 @@ public class SupplierResponseDTO {
 		this.terms = terms;
 	}
 
-	public Long getSupplierId() {
-		return supplierId;
-	}
-
-	public void setSupplierId(Long supplierId) {
-		this.supplierId = supplierId;
+	public String getContact() {
+		return contact;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public String getPhone() {
+		return phone;
 	}
 
-	public String getContact() {
-		return contact;
+	public Long getSupplierId() {
+		return supplierId;
+	}
+
+	public String getTerms() {
+		return terms;
 	}
 
 	public void setContact(String contact) {
 		this.contact = contact;
 	}
 
-	public String getPhone() {
-		return phone;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
-	public String getTerms() {
-		return terms;
+	public void setSupplierId(Long supplierId) {
+		this.supplierId = supplierId;
 	}
 
 	public void setTerms(String terms) {

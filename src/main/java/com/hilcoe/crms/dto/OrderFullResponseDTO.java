@@ -1,25 +1,26 @@
 package com.hilcoe.crms.dto;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.util.List;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class OrderFullResponseDTO {
-	@NotNull
-	private Long orderId;
 	@NotNull
 	private Long branchId;
 	@NotNull
-	private Long tableId;
+	private List<OrderItemResponseDTO> items;
+	@NotNull
+	private Long orderId;
 	@NotNull
 	private Long staffId;
 	@NotBlank
 	private String status;
 	@NotNull
-	private BigDecimal totalAmount;
+	private Long tableId;
 	@NotNull
-	private List<OrderItemResponseDTO> items;
+	private BigDecimal totalAmount;
 
 	public OrderFullResponseDTO() {
 		super();
@@ -38,59 +39,59 @@ public class OrderFullResponseDTO {
 		this.items = items;
 	}
 
-	public Long getOrderId() {
-		return orderId;
-	}
-
-	public void setOrderId(Long orderId) {
-		this.orderId = orderId;
-	}
-
 	public Long getBranchId() {
 		return branchId;
-	}
-
-	public void setBranchId(Long branchId) {
-		this.branchId = branchId;
-	}
-
-	public Long getTableId() {
-		return tableId;
-	}
-
-	public void setTableId(Long tableId) {
-		this.tableId = tableId;
-	}
-
-	public Long getStaffId() {
-		return staffId;
-	}
-
-	public void setStaffId(Long staffId) {
-		this.staffId = staffId;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public BigDecimal getTotalAmount() {
-		return totalAmount;
-	}
-
-	public void setTotalAmount(BigDecimal totalAmount) {
-		this.totalAmount = totalAmount;
 	}
 
 	public List<OrderItemResponseDTO> getItems() {
 		return items;
 	}
 
+	public Long getOrderId() {
+		return orderId;
+	}
+
+	public Long getStaffId() {
+		return staffId;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public Long getTableId() {
+		return tableId;
+	}
+
+	public BigDecimal getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setBranchId(Long branchId) {
+		this.branchId = branchId;
+	}
+
 	public void setItems(List<OrderItemResponseDTO> items) {
 		this.items = items;
+	}
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
+
+	public void setStaffId(Long staffId) {
+		this.staffId = staffId;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public void setTableId(Long tableId) {
+		this.tableId = tableId;
+	}
+
+	public void setTotalAmount(BigDecimal totalAmount) {
+		this.totalAmount = totalAmount;
 	}
 }

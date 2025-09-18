@@ -1,7 +1,7 @@
 package com.hilcoe.crms.dto;
 
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class OrderResponseDTO {
 	@NotNull
@@ -23,12 +23,12 @@ public class OrderResponseDTO {
 		return orderId;
 	}
 
-	public void setOrderId(Long orderId) {
-		this.orderId = orderId;
-	}
-
 	public String getStatus() {
 		return status;
+	}
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
 	}
 
 	public void setStatus(String status) {

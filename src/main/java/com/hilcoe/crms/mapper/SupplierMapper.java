@@ -1,11 +1,12 @@
 package com.hilcoe.crms.mapper;
 
-import com.hilcoe.crms.entity.Supplier;
-import com.hilcoe.crms.dto.SupplierDTO;
-import com.hilcoe.crms.dto.SupplierResponseDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+
+import com.hilcoe.crms.dto.SupplierDTO;
+import com.hilcoe.crms.dto.SupplierResponseDTO;
+import com.hilcoe.crms.entity.Supplier;
 
 @Mapper(componentModel = "spring")
 public interface SupplierMapper {

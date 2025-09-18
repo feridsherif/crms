@@ -1,9 +1,13 @@
 package com.hilcoe.crms.exception;
 
 public class PermissionNotFoundException extends RuntimeException {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
 	public PermissionNotFoundException(Long id) {
-        super("Permission not found with id: " + id);
-    }
+		super("Permission not found with id: " + id);
+	}
+
+	public PermissionNotFoundException(String message) {
+		super(message);
+	}
 }

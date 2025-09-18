@@ -1,24 +1,25 @@
 package com.hilcoe.crms.dto;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class ReservationFullResponseDTO {
 	@NotNull
-	private Long reservationId;
+	private Long branchId;
 	@NotNull
 	private Long customerId;
 	@NotNull
-	private Long tableId;
+	private int partySize;
 	@NotNull
-	private Long branchId;
+	private Long reservationId;
 	@NotNull
 	private LocalDateTime reservationTime;
-	@NotNull
-	private int partySize;
 	@NotBlank
 	private String status;
+	@NotNull
+	private Long tableId;
 
 	public ReservationFullResponseDTO() {
 		super();
@@ -37,59 +38,59 @@ public class ReservationFullResponseDTO {
 		this.status = status;
 	}
 
-	public Long getReservationId() {
-		return reservationId;
-	}
-
-	public void setReservationId(Long reservationId) {
-		this.reservationId = reservationId;
+	public Long getBranchId() {
+		return branchId;
 	}
 
 	public Long getCustomerId() {
 		return customerId;
 	}
 
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
+	public int getPartySize() {
+		return partySize;
 	}
 
-	public Long getTableId() {
-		return tableId;
-	}
-
-	public void setTableId(Long tableId) {
-		this.tableId = tableId;
-	}
-
-	public Long getBranchId() {
-		return branchId;
-	}
-
-	public void setBranchId(Long branchId) {
-		this.branchId = branchId;
+	public Long getReservationId() {
+		return reservationId;
 	}
 
 	public LocalDateTime getReservationTime() {
 		return reservationTime;
 	}
 
-	public void setReservationTime(LocalDateTime reservationTime) {
-		this.reservationTime = reservationTime;
+	public String getStatus() {
+		return status;
 	}
 
-	public int getPartySize() {
-		return partySize;
+	public Long getTableId() {
+		return tableId;
+	}
+
+	public void setBranchId(Long branchId) {
+		this.branchId = branchId;
+	}
+
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
 	}
 
 	public void setPartySize(int partySize) {
 		this.partySize = partySize;
 	}
 
-	public String getStatus() {
-		return status;
+	public void setReservationId(Long reservationId) {
+		this.reservationId = reservationId;
+	}
+
+	public void setReservationTime(LocalDateTime reservationTime) {
+		this.reservationTime = reservationTime;
 	}
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public void setTableId(Long tableId) {
+		this.tableId = tableId;
 	}
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-09-17T15:31:26+0300",
+    date = "2025-09-18T17:03:02+0300",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.43.0.v20250819-1513, environment: Java 21.0.8 (Eclipse Adoptium)"
 )
 @Component
@@ -22,8 +22,8 @@ public class SupplierMapperImpl implements SupplierMapper {
 
         Supplier supplier = new Supplier();
 
-        supplier.setName( dto.getName() );
         supplier.setContact( dto.getContact() );
+        supplier.setName( dto.getName() );
         supplier.setPhone( dto.getPhone() );
         supplier.setTerms( dto.getTerms() );
 
@@ -38,10 +38,10 @@ public class SupplierMapperImpl implements SupplierMapper {
 
         SupplierResponseDTO supplierResponseDTO = new SupplierResponseDTO();
 
-        supplierResponseDTO.setSupplierId( entity.getSupplierId() );
-        supplierResponseDTO.setName( entity.getName() );
         supplierResponseDTO.setContact( entity.getContact() );
+        supplierResponseDTO.setName( entity.getName() );
         supplierResponseDTO.setPhone( entity.getPhone() );
+        supplierResponseDTO.setSupplierId( entity.getSupplierId() );
         supplierResponseDTO.setTerms( entity.getTerms() );
 
         return supplierResponseDTO;

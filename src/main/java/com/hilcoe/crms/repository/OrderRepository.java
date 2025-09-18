@@ -1,7 +1,9 @@
 package com.hilcoe.crms.repository;
 
-import com.hilcoe.crms.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface OrderRepository extends JpaRepository<Order, Long> {
+import com.hilcoe.crms.entity.Order;
+
+public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecificationExecutor<Order> {
 }

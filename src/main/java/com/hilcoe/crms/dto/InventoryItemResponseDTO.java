@@ -1,24 +1,25 @@
 package com.hilcoe.crms.dto;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 
-public class InventoryItemResponseDTO {
-    @NotNull
-    private Long inventoryItemId;
-    @NotBlank
-    private String name;
-    @NotBlank
-    private String unit;
-    @NotNull
-    private BigDecimal quantity;
-    @NotNull
-    private BigDecimal threshold;
-    @NotNull
-    private Long supplierId;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-    public InventoryItemResponseDTO() {
+public class InventoryItemResponseDTO {
+	@NotNull
+	private Long inventoryItemId;
+	@NotBlank
+	private String name;
+	@NotNull
+	private BigDecimal quantity;
+	@NotNull
+	private Long supplierId;
+	@NotNull
+	private BigDecimal threshold;
+	@NotBlank
+	private String unit;
+
+	public InventoryItemResponseDTO() {
 		super();
 	}
 
@@ -34,50 +35,50 @@ public class InventoryItemResponseDTO {
 	}
 
 	public Long getInventoryItemId() {
-        return inventoryItemId;
-    }
+		return inventoryItemId;
+	}
 
-    public void setInventoryItemId(Long inventoryItemId) {
-        this.inventoryItemId = inventoryItemId;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public BigDecimal getQuantity() {
+		return quantity;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public Long getSupplierId() {
+		return supplierId;
+	}
 
-    public String getUnit() {
-        return unit;
-    }
+	public BigDecimal getThreshold() {
+		return threshold;
+	}
 
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
+	public String getUnit() {
+		return unit;
+	}
 
-    public BigDecimal getQuantity() {
-        return quantity;
-    }
+	public void setInventoryItemId(Long inventoryItemId) {
+		this.inventoryItemId = inventoryItemId;
+	}
 
-    public void setQuantity(BigDecimal quantity) {
-        this.quantity = quantity;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public BigDecimal getThreshold() {
-        return threshold;
-    }
+	public void setQuantity(BigDecimal quantity) {
+		this.quantity = quantity;
+	}
 
-    public void setThreshold(BigDecimal threshold) {
-        this.threshold = threshold;
-    }
+	public void setSupplierId(Long supplierId) {
+		this.supplierId = supplierId;
+	}
 
-    public Long getSupplierId() {
-        return supplierId;
-    }
+	public void setThreshold(BigDecimal threshold) {
+		this.threshold = threshold;
+	}
 
-    public void setSupplierId(Long supplierId) {
-        this.supplierId = supplierId;
-    }
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
 }

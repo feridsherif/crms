@@ -1,23 +1,31 @@
 package com.hilcoe.crms.entity;
 
-import jakarta.persistence.*;
 import java.math.BigDecimal;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "order_items")
 public class OrderItem {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "order_item_id")
-	private Long orderItemId;
+	@ManyToOne
+	@JoinColumn(name = "menu_item_id", nullable = false)
+	private MenuItem menuItem;
 
 	@ManyToOne
 	@JoinColumn(name = "order_id", nullable = false)
 	private Order order;
 
-	@ManyToOne
-	@JoinColumn(name = "menu_item_id", nullable = false)
-	private MenuItem menuItem;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "order_item_id")
+	private Long orderItemId;
 
 	@Column(name = "quantity", nullable = false)
 	private int quantity;
@@ -36,44 +44,39 @@ public class OrderItem {
 		this.unitPrice = unitPrice;
 	}
 
-	public Long getOrderItemId() {
-		return orderItemId;
-	}
-
-	public void setOrderItemId(Long orderItemId) {
-		this.orderItemId = orderItemId;
+	public MenuItem getMenuItem() {
+		return menuItem;
 	}
 
 	public Order getOrder() {
 		return order;
 	}
 
-	public void setOrder(Order order) {
-		this.order = order;
-	}
-
-	public MenuItem getMenuItem() {
-		return menuItem;
-	}
-
-	public void setMenuItem(MenuItem menuItem) {
-		this.menuItem = menuItem;
+	public Long getOrderItemId() {
+		return orderItemId;
 	}
 
 	public int getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
 	public BigDecimal getUnitPrice() {
 		return unitPrice;
 	}
 
-	public void setUnitPrice(BigDecimal unitPrice) {
-		this.unitPrice = unitPrice;
+	public void setMenuItem(MenuItem menuItem) {
+		this.menuItem = menuItem;
+	}
+
+	public void setMenuItemId(Long menuItemId) {
+		if (this.menuItem == null) {
+			this.menuItem = new MenuItem();
+		}
+		this.menuItem.setMenuItemId(menuItemId);
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 
 	public void setOrderId(Long orderId) {
@@ -83,10 +86,15 @@ public class OrderItem {
 		this.order.setOrderId(orderId);
 	}
 
-	public void setMenuItemId(Long menuItemId) {
-		if (this.menuItem == null) {
-			this.menuItem = new MenuItem();
-		}
-		this.menuItem.setMenuItemId(menuItemId);
+	public void setOrderItemId(Long orderItemId) {
+		this.orderItemId = orderItemId;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public void setUnitPrice(BigDecimal unitPrice) {
+		this.unitPrice = unitPrice;
 	}
 }

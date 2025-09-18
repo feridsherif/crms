@@ -1,82 +1,83 @@
 package com.hilcoe.crms.dto;
 
 import com.hilcoe.crms.entity.WaiterRequest;
-import jakarta.validation.constraints.NotNull;
+
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class WaiterRequestResponseDTO {
-    @NotNull
-    private Long requestId;
-    @NotNull
-    private Long tableId;
-    @NotNull
-    private Long branchId;
-    @NotNull
-    private WaiterRequest.RequestType requestType;
-    @NotBlank
-    private String status;
-    private Long handledBy;
+	@NotNull
+	private Long branchId;
+	private Long handledBy;
+	@NotNull
+	private Long requestId;
+	@NotNull
+	private WaiterRequest.RequestType requestType;
+	@NotBlank
+	private String status;
+	@NotNull
+	private Long tableId;
 
-    public WaiterRequestResponseDTO() {
+	public WaiterRequestResponseDTO() {
 		super();
 	}
 
 	public WaiterRequestResponseDTO(@NotNull Long requestId, @NotNull Long tableId, @NotNull Long branchId,
-            @NotNull WaiterRequest.RequestType requestType, @NotBlank String status, Long handledBy) {
-        super();
-        this.requestId = requestId;
-        this.tableId = tableId;
-        this.branchId = branchId;
-        this.requestType = requestType;
-        this.status = status;
-        this.handledBy = handledBy;
-    }
+			@NotNull WaiterRequest.RequestType requestType, @NotBlank String status, Long handledBy) {
+		super();
+		this.requestId = requestId;
+		this.tableId = tableId;
+		this.branchId = branchId;
+		this.requestType = requestType;
+		this.status = status;
+		this.handledBy = handledBy;
+	}
+
+	public Long getBranchId() {
+		return branchId;
+	}
+
+	public Long getHandledBy() {
+		return handledBy;
+	}
 
 	public Long getRequestId() {
-        return requestId;
-    }
+		return requestId;
+	}
 
-    public void setRequestId(Long requestId) {
-        this.requestId = requestId;
-    }
+	public WaiterRequest.RequestType getRequestType() {
+		return requestType;
+	}
 
-    public Long getTableId() {
-        return tableId;
-    }
+	public String getStatus() {
+		return status;
+	}
 
-    public void setTableId(Long tableId) {
-        this.tableId = tableId;
-    }
+	public Long getTableId() {
+		return tableId;
+	}
 
-    public Long getBranchId() {
-        return branchId;
-    }
+	public void setBranchId(Long branchId) {
+		this.branchId = branchId;
+	}
 
-    public void setBranchId(Long branchId) {
-        this.branchId = branchId;
-    }
+	public void setHandledBy(Long handledBy) {
+		this.handledBy = handledBy;
+	}
 
-    public WaiterRequest.RequestType getRequestType() {
-        return requestType;
-    }
+	public void setRequestId(Long requestId) {
+		this.requestId = requestId;
+	}
 
-    public void setRequestType(WaiterRequest.RequestType requestType) {
-        this.requestType = requestType;
-    }
+	public void setRequestType(WaiterRequest.RequestType requestType) {
+		this.requestType = requestType;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Long getHandledBy() {
-        return handledBy;
-    }
-
-    public void setHandledBy(Long handledBy) {
-        this.handledBy = handledBy;
-    }
+	public void setTableId(Long tableId) {
+		this.tableId = tableId;
+	}
 }

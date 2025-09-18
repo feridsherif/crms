@@ -5,84 +5,84 @@ import java.time.LocalDateTime;
 import jakarta.validation.constraints.Size;
 
 public class CustomerDTO {
-    private Long customerId;
+	private LocalDateTime createdAt;
 
-    private Long userId;
+	private Long customerId;
 
-    @Size(max = 100)
-    private String loyaltyId;
+	@Size(max = 100)
+	private String loyaltyId;
 
-    private String notes;
+	private String name;
 
-    private LocalDateTime createdAt;
+	private String notes;
 
-    private LocalDateTime updatedAt;
+	private String phone;
 
-    private String name;
-    private String phone;
+	private LocalDateTime updatedAt;
+	private Long userId;
 
-    // Getters and Setters
-    public Long getCustomerId() {
-        return customerId;
-    }
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
-    }
+	// Getters and Setters
+	public Long getCustomerId() {
+		return customerId;
+	}
 
-    public Long getUserId() {
-        return userId;
-    }
+	public String getLoyaltyId() {
+		return loyaltyId;
+	}
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getLoyaltyId() {
-        return loyaltyId;
-    }
+	public String getNotes() {
+		return notes;
+	}
 
-    public void setLoyaltyId(String loyaltyId) {
-        this.loyaltyId = loyaltyId;
-    }
+	public String getPhone() {
+		return phone;
+	}
 
-    public String getNotes() {
-        return notes;
-    }
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
 
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
+	public Long getUserId() {
+		return userId;
+	}
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
+	}
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
+	public void setLoyaltyId(String loyaltyId) {
+		this.loyaltyId = loyaltyId;
+	}
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
-    public String getPhone() {
-        return phone;
-    }
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
 }
