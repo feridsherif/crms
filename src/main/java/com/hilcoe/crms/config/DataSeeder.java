@@ -64,7 +64,7 @@ public class DataSeeder {
 	@Autowired
 	private RestaurantTableRepository restaurantTableRepository;
 
-	@PostConstruct
+//	@PostConstruct
 	public void seed() {
 		// 1. Seed Permissions
 		String[] entities = { "BRANCH", "INVENTORY", "MENU", "ORDER", "RESERVATION", "STAFF", "USER", "ROLE",

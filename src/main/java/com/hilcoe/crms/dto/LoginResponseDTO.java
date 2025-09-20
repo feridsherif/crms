@@ -3,21 +3,23 @@ package com.hilcoe.crms.dto;
 import java.util.List;
 
 public class LoginResponseDTO {
-	private List<String> permissions;
-	private Long roleId;
 	private String token;
+	private Long roleId;
 	private Long userId;
 	private String username;
+	private String email;
+	private List<String> permissions;
 
 	public LoginResponseDTO() {
 	}
 
-	public LoginResponseDTO(String token, String username, Long userId, Long roleId, List<String> permissions) {
+	public LoginResponseDTO(String token, String username, Long userId, Long roleId, List<String> permissions, String email) {
 		this.token = token;
 		this.username = username;
 		this.userId = userId;
 		this.roleId = roleId;
 		this.permissions = permissions;
+		this.email = email;
 	}
 
 	public List<String> getPermissions() {
@@ -30,6 +32,10 @@ public class LoginResponseDTO {
 
 	public String getToken() {
 		return token;
+	}	
+	
+	public String getEmail() {
+		return email;
 	}
 
 	public Long getUserId() {
@@ -38,6 +44,10 @@ public class LoginResponseDTO {
 
 	public String getUsername() {
 		return username;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public void setPermissions(List<String> permissions) {

@@ -40,7 +40,7 @@ public class AuthService {
 		List<String> permissions = userRoles == null ? List.of()
 				: userRoles.stream().flatMap(role -> role.getPermissions().stream())
 						.map(permission -> permission.getName()).distinct().collect(Collectors.toList());
-		return new LoginResponseDTO(token, user.getUsername(), user.getUserId(), primaryRoleId, permissions);
+		return new LoginResponseDTO(token, user.getUsername(), user.getUserId(), primaryRoleId, permissions, user.getEmail());
 	}
 
 	public void logout(String token) {

@@ -62,7 +62,7 @@ public class PermissionController {
 	public ResponseEntity<ApiResponse<PaginatedResponseDTO<PermissionDTO>>> getPermissionsPaginated(
 			@RequestParam(required = false) String name, @RequestParam(required = false) String description,
 			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size,
-			@RequestParam(defaultValue = "permissionId") String sortBy,
+			@RequestParam(defaultValue = "description") String sortBy,
 			@RequestParam(defaultValue = "asc") String direction) {
 		PaginatedResponseDTO<PermissionDTO> permissions = permissionService.getPermissionsPaginatedAdvanced(name,
 				description, page, size, sortBy, direction);
